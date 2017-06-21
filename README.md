@@ -29,6 +29,14 @@ dsavell/grav
 docker start grav
 ```
 
+You can choose between ,using tags, various branch versions of GRAV, no tag is required for grav default installation.
+
+Add one of the tags,  if required,  to the dsavell/grav line of the run/create command in the following format, dsavell/grav:admin
+
+#### Tags
++ **latest:** Basic GRAV Setup
++ **admin:** Includes the [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin)
+
 ## Setting up the application
 Access the webui at `http://<your-ip>`, for more information check out [GRAV](https://getgrav.org/).
 
