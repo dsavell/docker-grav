@@ -51,7 +51,7 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 
 ## Using the container
 
-+ Shell Access to container when it is running: docker exec -i -t grav /bin/bash
++ Shell Access to container when it is running: `docker exec -i -t grav /bin/bash`
 
 ## Changelog
 
