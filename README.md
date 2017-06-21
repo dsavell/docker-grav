@@ -16,6 +16,15 @@ The underlying architecture of Grav is built using well established and best-in-
 * Symfony Console: for CLI interface
 * Gregwar Image Library: for dynamic image manipulation
 
+## Container Information
+
++ centos:latest container
++ httpd (apache)
++ php7.0
++ Port 80 Exposed
++ No Optimization
++ No Custom Features
+
 ## Usage
 
 ```
@@ -29,7 +38,9 @@ docker start grav
 
 You can choose between ,using tags, various branch versions of GRAV, no tag is required for grav default installation.
 
-Add one of the tags,  if required,  to the dsavell/grav line of the run/create command in the following format, dsavell/grav:admin
+Add one of the tags,  if required:
+
++ ***Example:*** dsavell/grav:admin
 
 #### Tags
 + **latest:** GRAV Default Installation
@@ -38,6 +49,14 @@ Add one of the tags,  if required,  to the dsavell/grav line of the run/create c
 ## Setting up the application
 Access the webui at `http://<your-ip>`, for more information check out [GRAV](https://getgrav.org/).
 
+## Using the container
+
++ Shell Access to container when it is running: docker exec -i -t grav /bin/bash
+
 ## Changelog
 
 + **21/06/2017:** Initial Release
+	- First Initial Release
+	- No Optimization
+	- Full Operating System of centos used
+	- No Custom Features
