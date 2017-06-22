@@ -29,7 +29,7 @@ docker create --name=grav \
 --restart=always \
 -p 80:80 \
 -v /etc/localtime:/etc/localtime:ro \
-dsavell/grav
+dsavell/docker-grav
 docker start grav
 ```
 
@@ -37,7 +37,7 @@ You can choose between ,using tags, various branch versions of GRAV, no tag is r
 
 Add one of the tags,  if required:
 
-+ ***Example:*** dsavell/grav:admin
++ ***Example:*** dsavell/docker-grav:admin
 
 #### Tags
 + **latest:** GRAV Default Installation
@@ -51,13 +51,14 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + Shell Access to container when it is running: `docker exec -i -t grav /bin/bash`
 
 ## Issues
-	- CMS not usable behind reverse proxy.
+
++ CMS not usable behind reverse proxy.
 
 ## Changelog
 
 + **22/06/2017:** The Better Release
 	- Now uses image from php:7.0-apache
-	- Size has reduced from 1.2gb to 657mb
+	- Size has reduced from 1.2gb to 657mb & with admin plugin 682mb
 	- Corrected GRAV permissions
 	- Less packages installed during Docker build + cleanup
 + **21/06/2017:** Initial Release
