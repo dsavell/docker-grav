@@ -18,11 +18,8 @@ The underlying architecture of Grav is built using well established and best-in-
 
 ## Container Information
 
-+ centos:latest container
-+ httpd (apache)
-+ php7.0
++ php:7.0-apache image
 + Port 80 Exposed
-+ No Optimization
 + No Custom Features
 
 ## Usage
@@ -53,8 +50,16 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 
 + Shell Access to container when it is running: `docker exec -i -t grav /bin/bash`
 
+## Issues
+	- CMS not usable behind reverse proxy.
+
 ## Changelog
 
++ **22/06/2017:** The Better Release
+	- Now uses image from php:7.0-apache
+	- Size has reduced from 1.2gb to 657mb
+	- Corrected GRAV permissions
+	- Less packages installed during Docker build + cleanup
 + **21/06/2017:** Initial Release
 	- First Initial Release
 	- No Optimization
