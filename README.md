@@ -18,7 +18,7 @@ The underlying architecture of Grav is built using well established and best-in-
 
 ## Container Information
 
-+ php:7.0-apache image
++ ej52/alpine-nginx-php image
 + Port 80 Exposed
 + No Custom Features
 
@@ -28,7 +28,6 @@ The underlying architecture of Grav is built using well established and best-in-
 docker create --name=grav \
 --restart=always \
 -p 80:80 \
--v /etc/localtime:/etc/localtime:ro \
 dsavell/docker-grav
 docker start grav
 ```
@@ -41,7 +40,7 @@ Add one of the tags,  if required:
 
 #### Tags
 + **latest:** GRAV Default Installation
-+ **admin:** GRAV Default Installation + [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin)
++ **admin :** GRAV Default Installation + [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin)
 
 ## Setting up the application
 Access the webui at `http://<your-ip>`, for more information check out [GRAV](https://getgrav.org/).
@@ -55,7 +54,9 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + CMS not usable behind reverse proxy.
 
 ## Changelog
-
++ **22/06/2017:** The Even Smaller Release
+	- Now uses image from ej52/alpine-nginx-php
+	- Size has reduced from 657 to 267mb & with admin plugin 277mb
 + **22/06/2017:** The Better Release
 	- Now uses image from php:7.0-apache
 	- Size has reduced from 1.2gb to 657mb & with admin plugin 682mb
