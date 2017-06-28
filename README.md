@@ -40,7 +40,8 @@ Add one of the tags,  if required:
 
 #### Tags
 + **latest:** GRAV Default Installation
-+ **admin :** GRAV Default Installation + [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin)
++ **admin:** GRAV Default Installation + [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin)
++ **blog:** GRAV Default Installation + [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin) + [Blog-Skeleton](http://demo.getgrav.org/blog-skeleton)
 
 ## Setting up the application
 Access the webui at `http://<your-ip>`, for more information check out [GRAV](https://getgrav.org/).
@@ -54,6 +55,8 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + CMS not usable behind reverse proxy.
 
 ## Changelog
++ **29/06/2017:** The Blog Release
+	- added tag **blog** This is a skeleton of [Blog-Skeleton](http://demo.getgrav.org/blog-skeleton)
 + **28/06/2017:** The Even Smaller Release
 	- Now uses image from ej52/alpine-nginx-php
 	- Size has reduced from 657 to 267mb & with admin plugin 277mb
