@@ -16,6 +16,10 @@ The underlying architecture of Grav is built using well established and best-in-
 * Symfony Console: for CLI interface
 * Gregwar Image Library: for dynamic image manipulation
 
+## What is dsavell/grav?
+
+A Docker image with Grav CMS and PHP/nginx
+
 ## Container Information
 
 + ej52/alpine-nginx-php image
