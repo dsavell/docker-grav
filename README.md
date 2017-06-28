@@ -54,7 +54,7 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + CMS not usable behind reverse proxy.
 
 ## Changelog
-+ **22/06/2017:** The Even Smaller Release
++ **28/06/2017:** The Even Smaller Release
 	- Now uses image from ej52/alpine-nginx-php
 	- Size has reduced from 657 to 267mb & with admin plugin 277mb
 + **22/06/2017:** The Better Release
