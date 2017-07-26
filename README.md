@@ -32,7 +32,7 @@ A Docker image with Grav CMS and PHP/nginx
 docker create --name=grav \
 --restart=always \
 -p 80:80 \
-dsavell/docker-grav
+dsavell/grav
 docker start grav
 ```
 
@@ -40,7 +40,7 @@ You can choose between ,using tags, various branch versions of GRAV, no tag is r
 
 Add one of the tags,  if required:
 
-+ ***Example:*** dsavell/docker-grav:admin
++ ***Example:*** dsavell/grav:admin
 
 #### Tags
 + **latest:** GRAV Default Installation
@@ -48,17 +48,21 @@ Add one of the tags,  if required:
 + **blog:** GRAV Default Installation + [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin) + [Blog-Skeleton](http://demo.getgrav.org/blog-skeleton)
 
 ## Setting up the application
-Access the webui at `http://<your-ip>`, for more information check out [GRAV](https://getgrav.org/).
+Access the webui at `http://<your-ip>`, for more information check out [GRAV](https://getgrav.org/)
 
 ## Using the container
 
-+ Shell Access to container when it is running: `docker exec -i -t grav /bin/bash`
++ Shell Access to container when it is running: `docker exec -it grav /bin/bash`
 
 ## Issues
 
 + CMS not usable behind reverse proxy.
 
 ## Changelog
++ **27/07/2017:** The Automated Release
+	- Updated tag "blog" to now use github API to download latest [Blog-Skeleton](http://demo.getgrav.org/blog-skeleton) zip file
+	- Improved code on all tags
+	- Typo corrections on the README.md
 + **29/06/2017:** The Blog Release
 	- added tag **blog** This is a skeleton of [Blog-Skeleton](http://demo.getgrav.org/blog-skeleton)
 + **28/06/2017:** The Even Smaller Release
