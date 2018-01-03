@@ -59,7 +59,7 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + CMS not usable behind reverse proxy.
 
 ## Changelog
-+ **02/01/2018: ** The Release?
++ **02/01/2018:** The Release?
         - Improved Code
         - Updated GRAV
         - Now using github API to pull latest release
