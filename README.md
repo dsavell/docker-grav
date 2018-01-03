@@ -59,6 +59,10 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + CMS not usable behind reverse proxy.
 
 ## Changelog
++ **02/01/2018: ** The Release?
+        - Improved Code
+        - Updated GRAV
+        - Now using github API to pull latest release
 + **27/07/2017:** The Automated Release
 	- Updated tag "blog" to now use github API to download latest [Blog-Skeleton](http://demo.getgrav.org/blog-skeleton) zip file
 	- Improved code on all tags
