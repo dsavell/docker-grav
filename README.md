@@ -24,6 +24,7 @@ A Docker image with Grav CMS and PHP/nginx
 
 + ej52/alpine-nginx-php image
 + Port 80 Exposed
++ /var/www volume mount
 + No Custom Features
 
 ## Usage
@@ -32,6 +33,7 @@ A Docker image with Grav CMS and PHP/nginx
 docker create --name=grav \
 --restart=always \
 -p 80:80 \
+-v <path/to/somewhere:/var/www \
 dsavell/grav
 docker start grav
 ```
@@ -59,6 +61,8 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + CMS not usable behind reverse proxy.
 
 ## Changelog
++ **10/04/2018:** The Volume Release
+        - Added /var/www VOLUME can now be mounted.
 + **02/01/2018:** The 2018 Release
 	- Improved Code
 	- Now using github API to pull latest GRAV release
