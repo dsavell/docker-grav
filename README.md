@@ -62,7 +62,7 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 
 ## Changelog
 + **10/04/2018:** The Volume Release
-        - The /var/www volume can now be mounted.
+	- The /var/www volume can now be mounted.
 + **02/01/2018:** The 2018 Release
 	- Improved Code
 	- Now using github API to pull latest GRAV release
