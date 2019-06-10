@@ -32,8 +32,8 @@ A Docker image based on minideb:stretch linux with Grav CMS and PHP7.3/nginx.
 
 ```
 docker create --name=grav \
---restart=always \
--p 80:80 \
+  --restart=unless-stopped \
+  -p 80:80 \
 dsavell/grav
 docker start grav
 ```
