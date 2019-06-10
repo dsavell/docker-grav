@@ -61,18 +61,18 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 
 ## Changelog
 + **UPCOMING:**
-        - Better File/Volume control
-        - Better tagging / versioning of GRAV Core.
-        - Better User/Group management.
+	- Better File/Volume control
+	- Better tagging / versioning of GRAV Core.
+	- Better User/Group management.
 + **10/06/2019:** The Refactor Release
-        - Converted to minideb for better package management.
-        - Updated to PHP 7.3.
-        - Better logic to pull latest version when building.
-        - Better logging.
-        - blog image removed.
-        - GRAV Core & GRAV Core + Admin Plugin only images for now.
-        - Smaller Docker layering.
-        - Fixed nginx configuration thanks to [esapy](https://github.com/esapy) Issue #1
+	- Converted to minideb for better package management.
+	- Updated to PHP 7.3.
+	- Better logic to pull latest version when building.
+	- Better logging.
+	- blog image removed.
+	- GRAV Core & GRAV Core + Admin Plugin only images for now.
+	- Smaller Docker layering.
+ 	- Fixed nginx configuration thanks to [esapy](https://github.com/esapy) Issue #1
 + **10/04/2018:** The Volume Release
 	- The /var/www volume can now be mounted.
 + **02/01/2018:** The 2018 Release
