@@ -18,22 +18,22 @@ The underlying architecture of Grav is built using well established and best-in-
 
 ## What is dsavell/grav?
 
-A Docker image based on Alpine linux with Grav CMS and PHP/nginx.
+A Docker image based on minideb:stretch linux with Grav CMS and PHP7.3/nginx.
 
 ## Container Information
 
-+ ej52/alpine-nginx-php image
-+ Port 80 exposed.
-+ /var/www volume mount.
-+ No custom features.
++ bitnami/minideb:stretch
++ php7.3 + FPM
++ nginx
++ GRAV Core Latest
++ GRAV Admin Plugin Latest
 
 ## Usage
 
 ```
 docker create --name=grav \
---restart=always \
--p 80:80 \
--v <path/to/something>:/var/www \
+  --restart=unless-stopped \
+  -p 80:80 \
 dsavell/grav
 docker start grav
 ```
@@ -47,7 +47,6 @@ Add one of the tags,  if required:
 #### Tags
 + **latest:** GRAV Default Installation
 + **admin:** GRAV Default Installation + [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin)
-+ **blog:** GRAV Default Installation + [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin) + [Blog-Skeleton](http://demo.getgrav.org/blog-skeleton)
 
 ## Setting up the application
 Access the webui at `http://<your-ip>`, for more information check out [GRAV](https://getgrav.org/)
@@ -58,9 +57,22 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 
 ## Issues
 
-+ CMS not usable behind reverse proxy.
++ N/A.
 
 ## Changelog
++ **UPCOMING:**
+	- Better File/Volume control
+	- Better tagging / versioning of GRAV Core.
+	- Better User/Group management.
++ **10/06/2019:** The Refactor Release
+	- Converted to minideb for better package management.
+	- Updated to PHP 7.3.
+	- Better logic to pull latest version when building.
+	- Better logging.
+	- blog image removed.
+	- GRAV Core & GRAV Core + Admin Plugin only images for now.
+	- Smaller Docker layering.
+ 	- Fixed nginx configuration thanks to [esapy](https://github.com/esapy) [#1](https://github.com/dsavell/docker-grav/issues/1)
 + **10/04/2018:** The Volume Release
 	- The /var/www volume can now be mounted.
 + **02/01/2018:** The 2018 Release
