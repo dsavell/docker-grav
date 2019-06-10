@@ -72,7 +72,7 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 	- blog image removed.
 	- GRAV Core & GRAV Core + Admin Plugin only images for now.
 	- Smaller Docker layering.
- 	- Fixed nginx configuration thanks to [esapy](https://github.com/esapy) Issue #1
+ 	- Fixed nginx configuration thanks to [esapy](https://github.com/esapy) [#1](https://github.com/dsavell/docker-grav/issues/1)
 + **10/04/2018:** The Volume Release
 	- The /var/www volume can now be mounted.
 + **02/01/2018:** The 2018 Release
