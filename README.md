@@ -3,7 +3,7 @@
 ## Tags
 [latest, core, 1.6.9, core-1.6.9 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
 
-[admin, admin-1.6.9 (Dockerfile](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
+[admin, admin-1.6.9 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
 
 ![grav](https://getgrav-grav.netdna-ssl.com/user/pages/media/grav-logo.svg)
 
