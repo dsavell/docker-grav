@@ -1,5 +1,10 @@
 # dsavell/grav
 
+## Tags
+[latest, core, 1.6.9, core-1.6.9 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
+
+[admin, admin-1.6.9 (Dockerfile](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
+
 ![grav](https://getgrav-grav.netdna-ssl.com/user/pages/media/grav-logo.svg)
 
 Grav is a Fast, Simple, and Flexible file-based Web-platform. There is Zero installation required. Although Grav follows principles similar to other flat-file CMS platforms, it has a different design philosophy than most.
@@ -25,8 +30,8 @@ A Docker image based on minideb:stretch linux with Grav CMS and PHP7.3/nginx.
 + bitnami/minideb:stretch
 + php7.3 + FPM
 + nginx
-+ GRAV Core Latest
-+ GRAV Admin Plugin Latest
++ GRAV Core
++ GRAV Admin Plugin
 
 ## Usage
 
@@ -38,15 +43,16 @@ dsavell/grav
 docker start grav
 ```
 
-You can choose between ,using tags, various branch versions of GRAV, no tag is required for grav default installation.
+## Tag usage
+You can choose between ,using tags, no tag is required for grav default installation.
 
 Add one of the tags,  if required:
 
 + ***Example:*** dsavell/grav:admin
 
-#### Tags
-+ **latest:** GRAV Default Installation
-+ **admin:** GRAV Default Installation + [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin)
+#### Tag information
++ **latest:** GRAV Core
++ **admin:** GRAV Core + [Grav-Admin-Plugin](https://github.com/getgrav/grav-plugin-admin)
 
 ## Setting up the application
 Access the webui at `http://<your-ip>`, for more information check out [GRAV](https://getgrav.org/)
