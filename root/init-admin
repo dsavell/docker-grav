@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Install GRAV
+mkdir -p \
+  /var/www/grav
+if [[ -f /grav/grav.zip ]]; then
+  unzip /grav/grav.zip -d /grav
+  files=('.htaccess' 'CHANGELOG.md' 'CODE_OF_CONDUCT.md' 'CONTRIBUTING.md' 'LICENSE.txt' 'README.md' 'composer.json' 'composer.lock' 'index.php' 'robots.txt')
+  for i in "${files[@]}" 
+  do
+    mv /grav/grav-admin/$i /var/www/grav/
+  done
+  dirs=('assets' 'bin' 'cache' 'images' 'system' 'tmp' 'vendor' 'webserver-configs')
+  for i in "${dirs[@]}"
+  do
+    mv /grav/grav-admin/$i /var/www/grav/
+  done
+fi
+
+# Setup GRAV
+if [[ ! -d /var/www/grav/backup/.gitkeep ]]; then
+  echo "Fresh Install moving backup"
+  cp -r /grav/grav-admin/backup /var/www/grav
+fi
+
+if [[ ! -d /var/www/grav/logs/.gitkeep ]]; then
+  echo "Fresh Install moving logs"
+  cp -r /grav/grav-admin/logs /var/www/grav
+fi
+
+if [[ ! -d /var/www/grav/user/config/site.yaml ]]; then
+  echo "Fresh Install moving user configs"
+  cp -r /grav/grav-admin/user /var/www/grav
+fi
+
+# Clean
+rm -rf /grav
+rm -rf /var/www/html
+
+DUID=${DUID:-911}
+DGID=${DGID:-911}
+
+groupmod -o -g "$DGID" xyz
+usermod -o -u "$DUID" xyz
+sed -i -e 's/www-data/xyz/g' /etc/php/7.3/fpm/pool.d/www.conf
+
+# Set Permissions
+chown -R xyz:xyz /var/www
+find /var/www/grav -type f | xargs chmod 664
+find /var/www/grav/bin -type f | xargs chmod 775 
+find /var/www/grav -type d | xargs chmod 775
+find /var/www/grav -type d | xargs chmod +s
+umask 0002
+
+service php7.3-fpm start
+service nginx start
+tail -f /dev/null
