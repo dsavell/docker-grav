@@ -3,7 +3,7 @@ server {
     index index.html index.php;
 
     ## Begin - Server Info
-    root /var/www;
+    root /var/www/grav;
     server_name $hostname;
     ## End - Server Info
 
