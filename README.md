@@ -40,7 +40,7 @@ docker create \
   -v /data/containers/grav/backup:/var/www/grav/backup \
   -v /data/containers/grav/logs:/var/www/grav/logs \
   -v /data/containers/grav/user:/var/www/grav/user \
-  grav-core
+  dsavell/grav
 docker start grav
 ```
 
@@ -99,7 +99,11 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
+<<<<<<< HEAD
 + **18/06/2019:** The Better Release 2
+=======
++ **18/06/2019:** The Better Release?
+>>>>>>> README
 	- Better File/Volume control
 	- Better tagging / versioning of GRAV Core.
 	- Better User/Group management.
