@@ -100,10 +100,14 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 
 ## Changelog
 <<<<<<< HEAD
+<<<<<<< HEAD
 + **18/06/2019:** The Better Release 2
 =======
 + **18/06/2019:** The Better Release?
 >>>>>>> README
+=======
++ **18/06/2019:** The Better Release?
+>>>>>>> 88e7a075150209b8e2a55d03c8328f93481e6347
 	- Better File/Volume control
 	- Better tagging / versioning of GRAV Core.
 	- Better User/Group management.
