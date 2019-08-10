@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Install GRAV
 mkdir -p \
@@ -18,17 +18,17 @@ if [[ -f /grav/grav.zip ]]; then
 fi
 
 # Setup GRAV
-if [[ ! -d /var/www/grav/backup/.gitkeep ]]; then
+if [[ ! -e /var/www/grav/backup/.gitkeep ]]; then
   echo "Fresh Install moving backup"
   cp -r /grav/grav-admin/backup /var/www/grav
 fi
 
-if [[ ! -d /var/www/grav/logs/.gitkeep ]]; then
+if [[ ! -e /var/www/grav/logs/.gitkeep ]]; then
   echo "Fresh Install moving logs"
   cp -r /grav/grav-admin/logs /var/www/grav
 fi
 
-if [[ ! -d /var/www/grav/user/config/site.yaml ]]; then
+if [[ ! -e /var/www/grav/user/config/site.yaml ]]; then
   echo "Fresh Install moving user configs"
   cp -r /grav/grav-admin/user /var/www/grav
 fi
