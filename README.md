@@ -99,11 +99,13 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
++ **10/08/2019:**
+	- Fixed GRAV user directory being overwritten when rebuilding container. Thanks to [Miroka96](https://github.com/Miroka96) [#6](https://github.com/dsavell/docker-grav/issues/6)
 + **18/06/2019:** The Better Release?
 	- Better File/Volume control
 	- Better tagging / versioning of GRAV Core.
 	- Better User/Group management.
-        - Better Documentation.
+	- Better Documentation.
 + **10/06/2019:** The Refactor Release
 	- Converted to minideb for better package management.
 	- Updated to PHP 7.3.
