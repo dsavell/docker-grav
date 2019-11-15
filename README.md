@@ -46,9 +46,9 @@ docker start grav
 
 ## Tags
 
-[latest, core, 1.6.16, core-1.6.16 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
+[latest, core, 1.6.17, core-1.6.17 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
 
-[admin, admin-1.6.16 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
+[admin, admin-1.6.17 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
 
 ## Tag usage
 You can choose between ,using tags, no tag is required for grav default installation.
@@ -99,6 +99,8 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
++ **15/11/2019:**
+	- Fixed working directory this is now set to /var/ww/grav, now commands like bin/grav & bin/gpm can be used directly. Thanks to [aptonline](https://github.com/aptonline) [#9](https://github.com/dsavell/docker-grav/issues/9)
 + **10/08/2019:**
 	- Fixed GRAV user directory being overwritten when rebuilding container. Thanks to [Miroka96](https://github.com/Miroka96) [#6](https://github.com/dsavell/docker-grav/issues/6)
 + **18/06/2019:** The Better Release?

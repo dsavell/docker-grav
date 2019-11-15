@@ -38,4 +38,6 @@ EXPOSE 80 443
 
 COPY root/ /
 
+WORKDIR /var/www/grav
+
 CMD ["/init-admin"]
