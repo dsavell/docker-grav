@@ -1,4 +1,4 @@
-FROM bitnami/minideb:stretch
+FROM bitnami/minideb:latest
 
 RUN \
   ## Docker User
@@ -12,6 +12,7 @@ RUN \
     lsb-release \
     nginx \
     unzip \
+    cron \
     wget && \
   ## Install PHP APT Repository
   wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
@@ -23,13 +24,20 @@ RUN \
     php7.3-gd \
     php7.3-curl \
     php7.3-zip \
-    php7.3-mbstring \
-    php7.3-xml && \
+    php7.3-intl \
+    php7.3-xml \
+    ### ADD Multilang support for twig tools
+    php7.3-intl && \
   ## Download GRAV
   mkdir -p \
     /grav && \
   GRAV_VERSION=$(curl -sX GET "https://api.github.com/repos/getgrav/grav/releases/latest" | awk '/tag_name/{print $4;exit}' FS='[""]') && \
   curl -o /grav/grav.zip -L https://github.com/getgrav/grav/releases/download/${GRAV_VERSION}/grav-admin-v${GRAV_VERSION}.zip && \
+  ## Cron Setting UP
+  ### Fix no crontab for xyz
+  touch /var/spool/cron/crontabs/xyz && \
+  ### Add Cron JOB for xyz
+  RUN (crontab -l; echo "* * * * * xyz cd /var/www/grav;/usr/local/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u xyz - && \
   ## Nginx Logs
   ln -sf /dev/stdout /var/log/nginx/access.log && \
   ln -sf /dev/stderr /var/log/nginx/error.log
