@@ -37,7 +37,7 @@ RUN \
   ### Fix no crontab for xyz
   touch /var/spool/cron/crontabs/xyz && \
   ### Add Cron JOB for xyz
-  RUN (crontab -l; echo "* * * * * xyz cd /var/www/grav;/usr/local/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u xyz - && \
+  (crontab -l; echo "* * * * * xyz cd /var/www/grav;/usr/local/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u xyz - && \
   ## Nginx Logs
   ln -sf /dev/stdout /var/log/nginx/access.log && \
   ln -sf /dev/stderr /var/log/nginx/error.log
