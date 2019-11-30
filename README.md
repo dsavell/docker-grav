@@ -22,7 +22,7 @@ A Docker image based on minideb:stretch linux with Grav CMS and PHP7.3/nginx.
 
 ## Container Information
 
-+ bitnami/minideb:stretch
++ bitnami/minideb:buster
 + php7.3 + FPM
 + nginx
 + GRAV Core
@@ -99,6 +99,12 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
++ **30/11/2019:**
+	- Updated baseimage from stretch to buster. Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+	- Added cron & added cronjob allows jobs to be run on a periodic basic, GRAV relies on this. Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+	- Added php7.3-intl for Multilang support for twig tools. Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+	- Enabled caching in Nginx for tools that analyze speed performance (like gtmetrix) Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+	- Startup scripts now enable cron. Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
 + **15/11/2019:**
 	- Fixed working directory this is now set to /var/ww/grav, now commands like bin/grav & bin/gpm can be used directly. Thanks to [aptonline](https://github.com/aptonline) [#9](https://github.com/dsavell/docker-grav/issues/9)
 + **10/08/2019:**

@@ -26,17 +26,14 @@ RUN \
     php7.3-zip \
     php7.3-intl \
     php7.3-xml \
-    ### ADD Multilang support for twig tools
     php7.3-intl && \
   ## Download GRAV
   mkdir -p \
     /grav && \
   GRAV_VERSION=$(curl -sX GET "https://api.github.com/repos/getgrav/grav/releases/latest" | awk '/tag_name/{print $4;exit}' FS='[""]') && \
   curl -o /grav/grav.zip -L https://github.com/getgrav/grav/releases/download/${GRAV_VERSION}/grav-admin-v${GRAV_VERSION}.zip && \
-  ## Cron Setting UP
-  ### Fix no crontab for xyz
+  ## Setup cron
   touch /var/spool/cron/crontabs/xyz && \
-  ### Add Cron JOB for xyz
   (crontab -l; echo "* * * * * xyz cd /var/www/grav;/usr/local/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u xyz - && \
   ## Nginx Logs
   ln -sf /dev/stdout /var/log/nginx/access.log && \
