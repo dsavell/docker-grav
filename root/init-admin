@@ -54,4 +54,8 @@ umask 0002
 
 service php7.3-fpm start
 service nginx start
+## start cron
+service cron start
+## trap SIGINT and SIGTERM signals and gracefully exit
+trap "service cron stop; kill \$!; exit" SIGINT SIGTERM
 tail -f /dev/null
