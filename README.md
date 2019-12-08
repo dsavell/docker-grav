@@ -46,9 +46,9 @@ docker start grav
 
 ## Tags
 
-[latest, core, 1.6.17, core-1.6.17 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
+[latest, core, 1.6.19, core-1.6.19 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
 
-[admin, admin-1.6.17 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
+[admin, admin-1.6.19 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
 
 ## Tag usage
 You can choose between ,using tags, no tag is required for grav default installation.
@@ -99,6 +99,9 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
++ **08/12/2019:**
+	- Updated to Grav 1.6.19
+	- Fixed crontab schedules. Thanks to [coldestheart](https://github.com/coldestheart) [#11](https://github.com/dsavell/docker-grav/pull/11)
 + **30/11/2019:**
 	- Updated baseimage from stretch to buster. Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
 	- Added cron & added cronjob allows jobs to be run on a periodic basic, GRAV relies on this. Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
