@@ -1,6 +1,6 @@
 #/bin/bash
 
-export DOCKER_ID_USER=''
+export DOCKER_ID_USER='dsavell'
 export GRAV_VERSION=$(curl -sX GET "https://api.github.com/repos/getgrav/grav/releases/latest" | awk '/tag_name/{print $4;exit}' FS='[""]')
 
 ## Build Grav Core
