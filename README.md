@@ -18,7 +18,7 @@ The underlying architecture of Grav is built using well established and best-in-
 
 ## What is dsavell/grav?
 
-A Docker image based on minideb:stretch linux with Grav CMS and PHP7.3/nginx.
+A Docker image based on minideb:buster linux with Grav CMS and PHP7.3/nginx.
 
 ## Container Information
 
@@ -100,7 +100,7 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
-+ **/20/02/2020
++ **/20/02/2020:**
 	- Updated to Grav 1.6.21
 + **09/12/2019:**
 	- Fixed missing php7.3-mbstring on admin tag. Thanks to [Miroka96](https://github.com/Miroka96) [#13](https://github.com/dsavell/docker-grav/pull/13)
