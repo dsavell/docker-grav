@@ -100,6 +100,8 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
++ **12/04/2020:**
+	- Updated to Grav 1.6.23
 + **20/02/2020:**
 	- Updated to Grav 1.6.21
 + **09/12/2019:**

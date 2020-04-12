@@ -1,7 +1,7 @@
 #/bin/bash
 
 export DOCKER_ID_USER=''
-export GRAV_VERSION=$(curl -sX GET "https://api.github.com/repos/getgrav/grav/releases/latest" | awk '/tag_name/{print $4;exit}' FS='[""]')
+export GRAV_VERSION=$(curl -sX GET "https://api.github.com/repos/getgrav/grav/releases/latest" | jq -r .tag_name)
 
 ## Build Grav Core
 docker build -t grav -f Dockerfile.gravcore .
