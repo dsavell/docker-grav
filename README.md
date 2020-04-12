@@ -46,9 +46,9 @@ docker start grav
 
 ## Tags
 
-[latest, core, 1.6.21, core-1.6.21 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
+[latest, core, 1.6.23, core-1.6.23 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
 
-[admin, admin-1.6.21 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
+[admin, admin-1.6.23 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
 
 ## Tag usage
 You can choose between ,using tags, no tag is required for grav default installation.
