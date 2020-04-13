@@ -35,6 +35,7 @@ RUN \
   ## Setup cron
   touch /var/spool/cron/crontabs/xyz && \
   (crontab -l; echo "* * * * * cd /var/www/grav;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u xyz - && \
+  chown xyz /var/spool/cron/crontabs/xyz && \
   ## Nginx Logs
   ln -sf /dev/stdout /var/log/nginx/access.log && \
   ln -sf /dev/stderr /var/log/nginx/error.log
