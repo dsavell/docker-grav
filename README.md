@@ -100,6 +100,8 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
++ **22/04/2020:**
+	- Fix permissions for cron & GRAV Scheduler. Thanks to [SykieChen](https://github.com/SykieChen) [#19](https://github.com/dsavell/docker-grav/pull/19)
 + **12/04/2020:**
 	- Updated to Grav 1.6.23
 + **20/02/2020:**
