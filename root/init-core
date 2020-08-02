@@ -6,7 +6,7 @@ mkdir -p \
 if [[ -f /grav/grav.zip ]]; then
   unzip /grav/grav.zip -d /grav
   files=('.htaccess' 'CHANGELOG.md' 'CODE_OF_CONDUCT.md' 'CONTRIBUTING.md' 'LICENSE.txt' 'README.md' 'composer.json' 'composer.lock' 'index.php' 'robots.txt')
-  for i in "${files[@]}" 
+  for i in "${files[@]}"
   do
     mv /grav/grav/$i /var/www/grav/
   done

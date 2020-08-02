@@ -46,9 +46,9 @@ docker start grav
 
 ## Tags
 
-[latest, core, 1.6.25, core-1.6.25 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
+[latest, core, 1.6.26, core-1.6.26 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
 
-[admin, admin-1.6.25 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
+[admin, admin-1.6.26 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
 
 ## Tag usage
 You can choose between ,using tags, no tag is required for grav default installation.
@@ -100,6 +100,8 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
++ **02/08/2020:**
+	- Updated to Grav 1.6.26
 + **01/06/2020:**
 	- Updated to Grav 1.6.25
 + **22/04/2020:**
