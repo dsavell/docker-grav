@@ -33,9 +33,18 @@ if [[ ! -e /var/www/grav/user/config/site.yaml ]]; then
   cp -r /grav/grav/user /var/www/grav
 fi
 
+# check for supported GRAV_MULTISITE setting
+echo "Checking for multisite environment .."
+if [[ ! -z "${GRAV_MULTISITE}" && "$GRAV_MULTISITE" == "dir" ]]; then
+  echo "Copying multisite setup.php .."
+  cp /tmp/env/setup_subdirectory.php /var/www/grav/setup.php
+  mkdir -p /var/www/grav/user/sites
+fi
+
 # Clean
 rm -rf /grav
 rm -rf /var/www/html
+rm -rf /tmp/env
 
 DUID=${DUID:-911}
 DGID=${DGID:-911}
