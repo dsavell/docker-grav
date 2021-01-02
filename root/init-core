@@ -51,17 +51,17 @@ DGID=${DGID:-911}
 
 groupmod -o -g "$DGID" xyz
 usermod -o -u "$DUID" xyz
-sed -i -e 's/www-data/xyz/g' /etc/php/7.3/fpm/pool.d/www.conf
+sed -i -e 's/www-data/xyz/g' /etc/php/7.4/fpm/pool.d/www.conf
 
 # Set Permissions
 chown -R xyz:xyz /var/www
 find /var/www/grav -type f | xargs -d '\n' chmod 664
-find /var/www/grav/bin -type f | xargs -d '\n' chmod 775 
+find /var/www/grav/bin -type f | xargs -d '\n' chmod 775
 find /var/www/grav -type d | xargs -d '\n' chmod 775
 find /var/www/grav -type d | xargs -d '\n' chmod +s
 umask 0002
 
-service php7.3-fpm start
+service php7.4-fpm start
 service nginx start
 ## start cron
 service cron start
