@@ -46,10 +46,10 @@ sed -i -e 's/www-data/xyz/g' /etc/php/7.3/fpm/pool.d/www.conf
 
 # Set Permissions
 chown -R xyz:xyz /var/www
-find /var/www/grav -type f | xargs chmod 664
-find /var/www/grav/bin -type f | xargs chmod 775 
-find /var/www/grav -type d | xargs chmod 775
-find /var/www/grav -type d | xargs chmod +s
+find /var/www/grav -type f | xargs -d '\n' chmod 664
+find /var/www/grav/bin -type f | xargs -d '\n' chmod 775 
+find /var/www/grav -type d | xargs -d '\n' chmod 775
+find /var/www/grav -type d | xargs -d '\n' chmod +s
 umask 0002
 
 service php7.3-fpm start
