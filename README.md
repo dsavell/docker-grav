@@ -27,6 +27,7 @@ A Docker image based on minideb:buster linux with Grav CMS and PHP7.3/nginx.
 + nginx
 + GRAV Core
 + GRAV Admin Plugin
++ optional [multisite installation](https://learn.getgrav.org/16/advanced/multisite-setup) using subdirectories
 
 ## Usage
 
@@ -43,6 +44,8 @@ docker create \
   dsavell/grav
 docker start grav
 ```
+
+> Use the `-e GRAV_MULTISITE=dir` flag for a Grav multisite installation using subdirectories (see below). Multisite using subdomains is not yet supported.
 
 ## Tags
 
@@ -70,6 +73,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-p 80` | http |
 | `-e DUID=1000` | for UserID - see below for explanation |
 | `-e DGID=1000` | for GroupID - see below for explanation |
+| `-e GRAV_MULTISITE=dir` | Deploy a Grav multisite (subdirectory) installation |
 | `-v /var/www/backup` | Contains your location for Grav backups |
 | `-v /var/www/logs` | Contains your location for your Grav log files |
 | `-v /var/www/user` | Contains your Grav content |
