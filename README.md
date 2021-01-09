@@ -18,12 +18,12 @@ The underlying architecture of Grav is built using well established and best-in-
 
 ## What is dsavell/grav?
 
-A Docker image based on minideb:buster linux with Grav CMS and PHP7.3/nginx.
+A Docker image based on minideb:buster linux with Grav CMS and PHP7.4/nginx.
 
 ## Container Information
 
 + bitnami/minideb:buster
-+ php7.3 + FPM
++ php7.4 + FPM
 + nginx
 + GRAV Core
 + GRAV Admin Plugin
@@ -38,6 +38,7 @@ docker create \
   -p 80:80 \
   -e DUID=1000 \
   -e DGID=1000 \
+  -e GRAV_MULTISITE=subdirectory \
   -v /data/containers/grav/backup:/var/www/grav/backup \
   -v /data/containers/grav/logs:/var/www/grav/logs \
   -v /data/containers/grav/user:/var/www/grav/user \
@@ -45,13 +46,11 @@ docker create \
 docker start grav
 ```
 
-> Use the `-e GRAV_MULTISITE=dir` flag for a Grav multisite installation using subdirectories (see below). Multisite using subdomains is not yet supported.
-
 ## Tags
 
-[latest, core, 1.6.28, core-1.6.28 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
+[latest, core, 1.6.31, core-1.6.31 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
 
-[admin, admin-1.6.28 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
+[admin, admin-1.6.31 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
 
 ## Tag usage
 You can choose between ,using tags, no tag is required for grav default installation.
@@ -73,7 +72,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-p 80` | http |
 | `-e DUID=1000` | for UserID - see below for explanation |
 | `-e DGID=1000` | for GroupID - see below for explanation |
-| `-e GRAV_MULTISITE=dir` | Deploy a Grav multisite (subdirectory) installation |
+| `-e GRAV_MULTISITE=subdirectory` | Deploy a Grav multisite (subdirectory) installation |
 | `-v /var/www/backup` | Contains your location for Grav backups |
 | `-v /var/www/logs` | Contains your location for your Grav log files |
 | `-v /var/www/user` | Contains your Grav content |
@@ -104,6 +103,11 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
++ **UNRELEASED:**
+	- Updated to Grav 1.6.31
+	- Updated to PHP 7.4.x
+	- Fix permissions on startup because of topic names with whitespaces. Thanks to [Miroka96](https://github.com/Miroka96) [#22](https://github.com/dsavell/docker-grav/pull/23)
+	- Added support for multisite subdirectory. Thanks to [hughbris](https://github.com/hughbris) [#21](https://github.com/dsavell/docker-grav/pull/21)
 + **11/10/2020:**
 	- Updated to Grav 1.6.28
 + **02/08/2020:**

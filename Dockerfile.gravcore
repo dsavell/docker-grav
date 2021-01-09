@@ -16,17 +16,17 @@ RUN \
     wget && \
   ## Install PHP APT Repository
   wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
-  echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list && \
-  ## Install PHP 7.3
+  echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.4.list && \
+  ## Install PHP 7.4
   install_packages \
-    php7.3 \
-    php7.3-fpm \
-    php7.3-gd \
-    php7.3-curl \
-    php7.3-zip \
-    php7.3-mbstring \
-    php7.3-xml \
-    php7.3-intl && \
+    php7.4 \
+    php7.4-fpm \
+    php7.4-gd \
+    php7.4-curl \
+    php7.4-zip \
+    php7.4-mbstring \
+    php7.4-xml \
+    php7.4-intl && \
   ## Download GRAV
   mkdir -p \
     /grav && \
@@ -45,7 +45,6 @@ RUN \
 EXPOSE 80 443
 
 COPY root/ /
-COPY env/ /tmp/env/
 
 WORKDIR /var/www/grav
 
