@@ -8,12 +8,12 @@ if [[ -f /grav/grav.zip ]]; then
   files=('.htaccess' 'CHANGELOG.md' 'CODE_OF_CONDUCT.md' 'CONTRIBUTING.md' 'LICENSE.txt' 'README.md' 'composer.json' 'composer.lock' 'index.php' 'robots.txt')
   for i in "${files[@]}"
   do
-    mv /grav/grav-admin/$i /var/www/grav/
+    mv /grav/grav-admin/"$i" /var/www/grav/
   done
   dirs=('assets' 'bin' 'cache' 'images' 'system' 'tmp' 'vendor' 'webserver-configs')
   for i in "${dirs[@]}"
   do
-    mv /grav/grav-admin/$i /var/www/grav/
+    mv /grav/grav-admin/"$i" /var/www/grav/
   done
 fi
 
