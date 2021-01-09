@@ -38,7 +38,7 @@ docker create \
   -p 80:80 \
   -e DUID=1000 \
   -e DGID=1000 \
-  `-e GRAV_MULTISITE=subdirectory \
+  -e GRAV_MULTISITE=subdirectory \
   -v /data/containers/grav/backup:/var/www/grav/backup \
   -v /data/containers/grav/logs:/var/www/grav/logs \
   -v /data/containers/grav/user:/var/www/grav/user \
