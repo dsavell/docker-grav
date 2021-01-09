@@ -38,14 +38,13 @@ docker create \
   -p 80:80 \
   -e DUID=1000 \
   -e DGID=1000 \
+  `-e GRAV_MULTISITE=subdirectory \
   -v /data/containers/grav/backup:/var/www/grav/backup \
   -v /data/containers/grav/logs:/var/www/grav/logs \
   -v /data/containers/grav/user:/var/www/grav/user \
   dsavell/grav
 docker start grav
 ```
-
-> Use the `-e GRAV_MULTISITE=dir` flag for a Grav multisite installation using subdirectories (see below). Multisite using subdomains is not yet supported.
 
 ## Tags
 
@@ -73,7 +72,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-p 80` | http |
 | `-e DUID=1000` | for UserID - see below for explanation |
 | `-e DGID=1000` | for GroupID - see below for explanation |
-| `-e GRAV_MULTISITE=dir` | Deploy a Grav multisite (subdirectory) installation |
+| `-e GRAV_MULTISITE=subdirectory` | Deploy a Grav multisite (subdirectory) installation |
 | `-v /var/www/backup` | Contains your location for Grav backups |
 | `-v /var/www/logs` | Contains your location for your Grav log files |
 | `-v /var/www/user` | Contains your Grav content |
@@ -108,6 +107,7 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 	- Updated to Grav 1.6.31
 	- Updated to PHP 7.4.x
 	- Fix permissions on startup because of topic names with whitespaces. Thanks to [Miroka96](https://github.com/Miroka96) [#22](https://github.com/dsavell/docker-grav/pull/23)
+	- Added support for multisite subdirectory. Thanks to [hughbris](https://github.com/hughbris) [#21](https://github.com/dsavell/docker-grav/pull/21)
 + **11/10/2020:**
 	- Updated to Grav 1.6.28
 + **02/08/2020:**

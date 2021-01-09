@@ -45,7 +45,6 @@ RUN \
 EXPOSE 80 443
 
 COPY root/ /
-COPY env/ /tmp/env/
 
 WORKDIR /var/www/grav
 

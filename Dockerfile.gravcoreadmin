@@ -47,6 +47,5 @@ EXPOSE 80 443
 COPY root/ /
 
 WORKDIR /var/www/grav
-COPY env/ /tmp/env/
 
 CMD ["/init-admin"]
