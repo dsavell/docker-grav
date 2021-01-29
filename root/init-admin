@@ -5,7 +5,7 @@ mkdir -p \
   /var/www/grav
 if [[ -f /grav/grav.zip ]]; then
   unzip /grav/grav.zip -d /grav
-  files=('.htaccess' 'CHANGELOG.md' 'CODE_OF_CONDUCT.md' 'CONTRIBUTING.md' 'LICENSE.txt' 'README.md' 'composer.json' 'composer.lock' 'index.php' 'robots.txt')
+  files=('CHANGELOG.md' 'CODE_OF_CONDUCT.md' 'CONTRIBUTING.md' 'LICENSE.txt' 'README.md' 'composer.json' 'composer.lock' 'index.php' 'robots.txt')
   for i in "${files[@]}"
   do
     mv /grav/grav-admin/"$i" /var/www/grav/
