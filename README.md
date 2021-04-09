@@ -48,9 +48,9 @@ docker start grav
 
 ## Tags
 
-[latest, core, 1.6.31, core-1.6.31 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
+[latest, core, 1.7.10, core-1.7.10 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
 
-[admin, admin-1.6.31 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
+[admin, admin-1.7.10 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
 
 ## Tag usage
 You can choose between ,using tags, no tag is required for grav default installation.
@@ -104,10 +104,11 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 
 ## Changelog
 + **UNRELEASED:**
-	- Updated to Grav 1.6.31
+	- Updated to Grav 1.7.10
 	- Updated to PHP 7.4.x
 	- Fix permissions on startup because of topic names with whitespaces. Thanks to [Miroka96](https://github.com/Miroka96) [#22](https://github.com/dsavell/docker-grav/pull/23)
 	- Added support for multisite subdirectory. Thanks to [hughbris](https://github.com/hughbris) [#21](https://github.com/dsavell/docker-grav/pull/21)
+        - Fix 
 + **11/10/2020:**
 	- Updated to Grav 1.6.28
 + **02/08/2020:**
