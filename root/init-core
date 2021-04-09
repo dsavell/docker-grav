@@ -55,10 +55,11 @@ sed -i -e 's/www-data/xyz/g' /etc/php/7.4/fpm/pool.d/www.conf
 
 # Set Permissions
 chown -R xyz:xyz /var/www
-find /var/www/grav -type f -print0 | xargs chmod 664
-find /var/www/grav/bin -type f -print0 | xargs chmod 775
-find /var/www/grav -type d -print0 | xargs chmod 775
-find /var/www/grav -type d -print0 | xargs chmod +s
+chown -R xyz:xyz /var/www
+find /var/www/grav -type f -exec chmod 664 {} \;
+find /var/www/grav/bin -type f -exec chmod 775 {} \;
+find /var/www/grav -type d -exec chmod 775 {} \;
+find /var/www/grav -type d -exec chmod +s {} \;
 umask 0002
 
 service php7.4-fpm start
