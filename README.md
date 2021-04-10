@@ -1,6 +1,6 @@
 # dsavell/grav
 
-![grav](https://getgrav-grav.netdna-ssl.com/user/pages/media/grav-logo.svg)
+![grav](https://getgrav.org/user/pages/media/grav-logo.svg)
 
 Grav is a Fast, Simple, and Flexible file-based Web-platform. There is Zero installation required. Although Grav follows principles similar to other flat-file CMS platforms, it has a different design philosophy than most.
 
