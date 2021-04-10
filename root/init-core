@@ -35,7 +35,7 @@ fi
 
 # check for supported GRAV_MULTISITE setting
 echo "Checking for multisite environment .."
-if [[ ! -z "${GRAV_MULTISITE}" && "$GRAV_MULTISITE" == "subdirectory" ]]; then
+if [[ -n "${GRAV_MULTISITE}" && "$GRAV_MULTISITE" == "subdirectory" ]]; then
   echo "Copying multisite setup.php .."
   cp /tmp/env/setup_subdirectory.php /var/www/grav/setup.php
   mkdir -p /var/www/grav/user/sites
@@ -55,10 +55,11 @@ sed -i -e 's/www-data/xyz/g' /etc/php/7.4/fpm/pool.d/www.conf
 
 # Set Permissions
 chown -R xyz:xyz /var/www
-find /var/www/grav -type f | xargs -d '\n' chmod 664
-find /var/www/grav/bin -type f | xargs -d '\n' chmod 775
-find /var/www/grav -type d | xargs -d '\n' chmod 775
-find /var/www/grav -type d | xargs -d '\n' chmod +s
+chown -R xyz:xyz /var/www
+find /var/www/grav -type f -exec chmod 664 {} \;
+find /var/www/grav/bin -type f -exec chmod 775 {} \;
+find /var/www/grav -type d -exec chmod 775 {} \;
+find /var/www/grav -type d -exec chmod +s {} \;
 umask 0002
 
 service php7.4-fpm start
