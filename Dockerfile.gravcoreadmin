@@ -10,6 +10,7 @@ RUN \
     ca-certificates \
     curl \
     lsb-release \
+    nano \
     nginx \
     unzip \
     cron \

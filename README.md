@@ -48,9 +48,9 @@ docker start grav
 
 ## Tags
 
-[latest, core, 1.7.10, core-1.7.10 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
+[latest, core, 1.7.12, core-1.7.12 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
 
-[admin, admin-1.7.10 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
+[admin, admin-1.7.12 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
 
 ## Tag usage
 You can choose between ,using tags, no tag is required for grav default installation.
@@ -103,6 +103,9 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + N/A.
 
 ## Changelog
++ **15/04/2021:**
+	- Updated to Grav 1.7.12
+	- Added nano text editor to the image.
 + **10/04/2021:**
 	- Updated to Grav 1.7.10
 	- Updated to PHP 7.4.x
