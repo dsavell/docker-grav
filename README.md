@@ -22,7 +22,7 @@ A Docker image based on minideb:buster linux with Grav CMS and PHP7.4/nginx.
 
 ## Container Information
 
-+ bitnami/minideb:buster
++ bitnami/minideb:bullseye
 + php7.4 + FPM
 + nginx
 + GRAV Core
