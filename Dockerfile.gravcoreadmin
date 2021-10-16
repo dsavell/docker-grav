@@ -1,4 +1,4 @@
-FROM bitnami/minideb:buster
+FROM bitnami/minideb:bullseye
 
 RUN \
   ## Docker User
@@ -31,14 +31,10 @@ RUN \
   ## Download GRAV
   mkdir -p \
     /grav && \
-  GRAV_VERSION=$(curl -sX GET "https://api.github.com/repos/getgrav/grav/releases/latest" | awk '/tag_name/{print $4;exit}' FS='[""]') && \
+  GRAV_VERSION=$(curl -sL "https://api.github.com/repos/getgrav/grav/releases/latest" | grep tag_name | cut -d '"' -f 4) && \
   curl -o /grav/grav.zip -L https://github.com/getgrav/grav/releases/download/${GRAV_VERSION}/grav-admin-v${GRAV_VERSION}.zip && \
-  ## Setup cron to make control console green
-  touch /var/spool/cron/crontabs/xyz && \
-  (crontab -l; echo "* * * * * cd /var/www/grav;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u xyz - && \
-  chown xyz /var/spool/cron/crontabs/xyz && \
-  ## Setup cron that really works
-  (crontab -l; echo "* * * * * cd /var/www/grav;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab - && \
+  ## Setup Cron
+  (crontab -l; echo "* * * * * cd /var/www/grav;/usr/bin/php7.4 bin/grav scheduler 1>> /dev/null 2>&1") | crontab - xyz && \
   ## Nginx Logs
   ln -sf /dev/stdout /var/log/nginx/access.log && \
   ln -sf /dev/stderr /var/log/nginx/error.log

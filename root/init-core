@@ -62,6 +62,9 @@ find /var/www/grav -type d -exec chmod 775 {} \;
 find /var/www/grav -type d -exec chmod +s {} \;
 umask 0002
 
+bin/grav scheduler -i
+crontab -l
+
 service php7.4-fpm start
 service nginx start
 ## start cron
