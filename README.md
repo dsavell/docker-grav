@@ -100,13 +100,14 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 
 ## Issues
 
-+ N/A.
++ Scheduler mentions cron is not available in the UI, however it works. issue has been raised `https://github.com/getgrav/grav-plugin-admin/issues/1744`
 
 ## Changelog
 + **16/10/2021:**
   - Updated to Grav 1.7.23
   - Updated curl script in Docker file to correctly pull latest version of grav.
   - Updated to Debian 11.x (bullseye)
+  - Changed crontab logic, however it works, just complains in the UI, known bug in admin plugin above.
   - Added check for `bin/grav/ scheduler -i` to startup output.
   - Added check for `crontab -l` to startup output.
 + **15/04/2021:**

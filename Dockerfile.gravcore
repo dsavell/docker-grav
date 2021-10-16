@@ -33,11 +33,21 @@ RUN \
     /grav && \
   GRAV_VERSION=$(curl -sL "https://api.github.com/repos/getgrav/grav/releases/latest" | grep tag_name | cut -d '"' -f 4) && \
   curl -o /grav/grav.zip -L https://github.com/getgrav/grav/releases/download/${GRAV_VERSION}/grav-v${GRAV_VERSION}.zip && \
-  ## Setup Cron
-  (crontab -l; echo "* * * * * cd /var/www/grav;/usr/bin/php7.4 bin/grav scheduler 1>> /dev/null 2>&1") | crontab - xyz && \
   ## Nginx Logs
   ln -sf /dev/stdout /var/log/nginx/access.log && \
   ln -sf /dev/stderr /var/log/nginx/error.log
+
+USER xyz
+
+# Create cron job for Grav maintenance scripts
+RUN \
+  (crontab -l; echo "* * * * * cd /var/www/grav;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -
+
+USER root
+
+# Create cron job for Grav maintenance scripts
+RUN \
+  (crontab -l; echo "* * * * * cd /var/www/grav;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -
 
 EXPOSE 80 443
 
