@@ -65,7 +65,7 @@ sed -i -e 's/www-data/xyz/g' /etc/php/7.4/fpm/pool.d/www.conf
 
 # Set Permissions
 chown -R xyz:xyz /var/www
-chown -R xyz:xyz /var/www
+mkdir /run/php && chown -R xyz:xyz /run/php
 find /var/www/grav -type f -exec chmod 664 {} \;
 find /var/www/grav/bin -type f -exec chmod 775 {} \;
 find /var/www/grav -type d -exec chmod 775 {} \;
