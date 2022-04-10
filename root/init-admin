@@ -33,13 +33,22 @@ if [[ ! -e /var/www/grav/user/config/site.yaml ]]; then
   cp -r /grav/grav-admin/user /var/www/grav
 fi
 
-# check for supported GRAV_MULTISITE setting
+# check for supported GRAV_MULTISITE settings
 echo "Checking for multisite environment .."
-if [[ -n "${GRAV_MULTISITE}" && "$GRAV_MULTISITE" == "subdirectory" ]]; then
-  echo "Copying multisite setup.php .."
-  cp /tmp/env/setup_subdirectory.php /var/www/grav/setup.php
-  mkdir -p /var/www/grav/user/sites
-fi
+case $GRAV_MULTISITE in
+  subdirectory)
+    echo "Copying multisite subdirectory setup.php .."
+    cp /tmp/env/setup_subdirectory.php /var/www/grav/setup.php
+    mkdir -p /var/www/grav/user/sites
+    ;;
+  subdomain)
+    echo "Copying multisite subdomain setup.php .."
+    cp /tmp/env/setup_subdomain.php /var/www/grav/setup.php
+    mkdir -p /var/www/grav/user/sites
+    ;;
+  *)
+  ;;
+esac
 
 # Clean
 rm -rf /grav
