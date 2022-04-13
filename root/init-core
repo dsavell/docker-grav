@@ -51,6 +51,12 @@ case $GRAV_MULTISITE in
     ;;
 esac
 
+# allow specifying a custom client_max_body_size for nginx
+if [[ -n $NGINX_CLIENT_MAX_BODY_SIZE ]]; then
+  sed -i.bak "s/client_max_body_size .*;/client_max_body_size ${NGINX_CLIENT_MAX_BODY_SIZE};/g" /etc/nginx/nginx.conf
+fi
+
+
 # Clean
 rm -rf /grav
 rm -rf /var/www/html
