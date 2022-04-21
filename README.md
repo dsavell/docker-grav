@@ -103,6 +103,9 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + Scheduler mentions cron is not available in the UI, however it works. issue has been raised `https://github.com/getgrav/grav-plugin-admin/issues/1744`
 
 ## Changelog
++ **20/04/2022:**
+  - Added `subdomain` as an option for `GRAV_MULTISITE`
+	- Added `NGINX_CLIENT_MAX_BODY_SIZE` to specify the nginx config client_max_body_size
 + **16/10/2021:**
   - Updated to Grav 1.7.23
   - Updated curl script in Docker file to correctly pull latest version of grav.
