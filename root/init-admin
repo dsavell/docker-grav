@@ -55,10 +55,17 @@ if [[ -n $NGINX_CLIENT_MAX_BODY_SIZE ]]; then
   sed -i.bak "s/client_max_body_size .*;/client_max_body_size ${NGINX_CLIENT_MAX_BODY_SIZE};/g" /etc/nginx/nginx.conf
 fi
 
+# Copy robots.txt file with disallow everything directive if set
+ROBOTS_DISALLOW=${ROBOTS_DISALLOW:-false}
+if [[ $ROBOTS_DISALLOW == "true" ]]; then
+  echo "Copying disallowing robots.txt .."
+  cp -f /tmp/extras/robots.disallow.txt /var/www/grav/robots.txt
+fi
+
 # Clean
 rm -rf /grav
 rm -rf /var/www/html
-rm -rf /tmp/env
+rm -rf /tmp/env /tmp/extras
 
 DUID=${DUID:-911}
 DGID=${DGID:-911}
