@@ -33,12 +33,26 @@ if [[ ! -e /var/www/grav/user/config/site.yaml ]]; then
   cp -r /grav/grav-admin/user /var/www/grav
 fi
 
-# check for supported GRAV_MULTISITE setting
+# check for supported GRAV_MULTISITE settings
 echo "Checking for multisite environment .."
-if [[ -n "${GRAV_MULTISITE}" && "$GRAV_MULTISITE" == "subdirectory" ]]; then
-  echo "Copying multisite setup.php .."
-  cp /tmp/env/setup_subdirectory.php /var/www/grav/setup.php
-  mkdir -p /var/www/grav/user/sites
+case $GRAV_MULTISITE in
+  subdirectory)
+    echo "Copying multisite subdirectory setup.php .."
+    cp /tmp/env/setup_subdirectory.php /var/www/grav/setup.php
+    mkdir -p /var/www/grav/user/sites
+    ;;
+  subdomain)
+    echo "Copying multisite subdomain setup.php .."
+    cp /tmp/env/setup_subdomain.php /var/www/grav/setup.php
+    mkdir -p /var/www/grav/user/sites
+    ;;
+  *)
+  ;;
+esac
+
+# allow specifying a custom client_max_body_size for nginx
+if [[ -n $NGINX_CLIENT_MAX_BODY_SIZE ]]; then
+  sed -i.bak "s/client_max_body_size .*;/client_max_body_size ${NGINX_CLIENT_MAX_BODY_SIZE};/g" /etc/nginx/nginx.conf
 fi
 
 # Copy robots.txt file with disallow everything directive if set
@@ -62,6 +76,8 @@ sed -i -e 's/www-data/xyz/g' /etc/php/7.4/fpm/pool.d/www.conf
 
 # Set Permissions
 chown -R xyz:xyz /var/www
+mkdir /run/php && chown -R xyz:xyz /run/php
+chmod 777 /tmp
 find /var/www/grav -type f -exec chmod 664 {} \;
 find /var/www/grav/bin -type f -exec chmod 775 {} \;
 find /var/www/grav -type d -exec chmod 775 {} \;

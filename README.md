@@ -48,9 +48,9 @@ docker start grav
 
 ## Tags
 
-[latest, core, 1.7.23, core-1.7.23 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
+[latest, core, 1.7.33, core-1.7.33 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcore)
 
-[admin, admin-1.7.23 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
+[admin, admin-1.7.33 (Dockerfile)](https://github.com/dsavell/docker-grav/blob/master/Dockerfile.gravcoreadmin)
 
 ## Tag usage
 You can choose between ,using tags, no tag is required for grav default installation.
@@ -104,6 +104,10 @@ Access the webui at `http://<your-ip>`, for more information check out [GRAV](ht
 + Scheduler mentions cron is not available in the UI, however it works. issue has been raised `https://github.com/getgrav/grav-plugin-admin/issues/1744`
 
 ## Changelog
++ **18/05/2022:**
+  - Added `subdomain` as an option for `GRAV_MULTISITE`
+	- Added `NGINX_CLIENT_MAX_BODY_SIZE` to specify the nginx config client_max_body_size
+	- Updated to Grav 1.7.33
 + **16/10/2021:**
   - Updated to Grav 1.7.23
   - Updated curl script in Docker file to correctly pull latest version of grav.
