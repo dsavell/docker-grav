@@ -8,10 +8,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   standards-validate:
@@ -121,7 +121,7 @@ jobs:
             GRAV_VERSION=${{ env.GRAV_VERSION }}
 
   docker-build-main:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs:
       - standards-validate
       - docker-validate
