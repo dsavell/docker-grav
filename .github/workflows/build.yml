@@ -169,7 +169,7 @@ jobs:
         with:
           context: .
           file: Dockerfile.grav${{ matrix.tag }}
-          push: false
+          push: true
           tags: ${{ steps.docker-meta.outputs.tags }}
           labels: ${{ steps.docker-meta.outputs.labels }}
           build-args: |
