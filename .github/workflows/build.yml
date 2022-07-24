@@ -1,0 +1,176 @@
+---
+name: Build
+
+on:
+  schedule:
+    # Everyday at 01:00am
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  standards-validate:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install prerequisites
+        run: |
+          npm install -g yarn npm npx
+
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      - name: Run pre-commit framework
+        uses: pre-commit/action@v3.0.0
+
+      - name: Run code validate
+        run: |
+          yarn validate
+
+  docker-validate:
+    needs:
+      - standards-validate
+    strategy:
+      matrix:
+        tag: [core, admin]
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Docker Lint
+        uses: hadolint/hadolint-action@v2.1.0
+        with:
+          dockerfile: Dockerfile.grav${{ matrix.tag }}
+
+  docker-build-pr:
+    if: github.event_name == 'pull_request'
+    needs:
+      - standards-validate
+      - docker-validate
+    strategy:
+      matrix:
+        tag: [core, admin]
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get Date
+        run: |
+          DATE=$(date +"%Y%m%d")
+          echo "${DATE}"
+          echo "DATE=${DATE}" >> $GITHUB_ENV
+
+      - name: Get GRAV Version
+        run: |
+          GRAV_VERSION=$(curl -sL "https://api.github.com/repos/getgrav/grav/releases/latest" | grep tag_name | cut -d '"' -f 4)
+          echo "${GRAV_VERSION}"
+          echo "GRAV_VERSION=${GRAV_VERSION}" >> $GITHUB_ENV
+
+      - name: Generate Docker Metadata
+        id: docker-meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            dsavell/grav
+          tags: |
+            type=raw,value=${{ matrix.tag }}
+            type=raw,value=${{ matrix.tag }}-${{ env.GRAV_VERSION }}
+            type=raw,value=${{ matrix.tag }}-${{ env.DATE }}
+            type=raw,value=${{ matrix.tag }}-${{ env.GRAV_VERSION }}-${{ env.DATE }}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: Dockerfile.grav${{ matrix.tag }}
+          push: false
+          tags: ${{ steps.docker-meta.outputs.tags }}
+          labels: ${{ steps.docker-meta.outputs.labels }}
+          build-args: |
+            GRAV_VERSION=${{ env.GRAV_VERSION }}
+
+  docker-build-main:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+    needs:
+      - standards-validate
+      - docker-validate
+    strategy:
+      matrix:
+        tag: [core, admin]
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get Date
+        run: |
+          DATE=$(date +"%Y%m%d")
+          echo "${DATE}"
+          echo "DATE=${DATE}" >> $GITHUB_ENV
+
+      - name: Get GRAV Version
+        run: |
+          GRAV_VERSION=$(curl -sL "https://api.github.com/repos/getgrav/grav/releases/latest" | grep tag_name | cut -d '"' -f 4)
+          echo "${GRAV_VERSION}"
+          echo "GRAV_VERSION=${GRAV_VERSION}" >> $GITHUB_ENV
+
+      - name: Generate Docker Metadata
+        id: docker-meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            dsavell/grav
+          tags: |
+            type=raw,value=${{ matrix.tag }}
+            type=raw,value=${{ matrix.tag }}-${{ env.GRAV_VERSION }}
+            type=raw,value=${{ matrix.tag }}-${{ env.DATE }}
+            type=raw,value=${{ matrix.tag }}-${{ env.GRAV_VERSION }}-${{ env.DATE }}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: Dockerfile.grav${{ matrix.tag }}
+          push: false
+          tags: ${{ steps.docker-meta.outputs.tags }}
+          labels: ${{ steps.docker-meta.outputs.labels }}
+          build-args: |
+            GRAV_VERSION=${{ env.GRAV_VERSION }}
