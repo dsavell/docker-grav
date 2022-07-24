@@ -1,5 +1,8 @@
 FROM bitnami/minideb:bullseye
 
+ARG GRAV_VERSION
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN \
   ## Docker User
   useradd -u 911 -U -d /var/www -s /bin/false xyz && \
@@ -16,7 +19,7 @@ RUN \
     cron \
     wget && \
   ## Install PHP APT Repository
-  wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
+  curl -o /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
   echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.4.list && \
   ## Install PHP 7.4
   install_packages \
@@ -31,8 +34,7 @@ RUN \
   ## Download GRAV
   mkdir -p \
     /grav && \
-  GRAV_VERSION=$(curl -sL "https://api.github.com/repos/getgrav/grav/releases/latest" | grep tag_name | cut -d '"' -f 4) && \
-  curl -o /grav/grav.zip -L https://github.com/getgrav/grav/releases/download/${GRAV_VERSION}/grav-admin-v${GRAV_VERSION}.zip && \
+  curl -o /grav/grav.zip -L https://github.com/getgrav/grav/releases/download/"${GRAV_VERSION}"/grav-admin-v"${GRAV_VERSION}".zip && \
   ## Nginx Logs
   ln -sf /dev/stdout /var/log/nginx/access.log && \
   ln -sf /dev/stderr /var/log/nginx/error.log

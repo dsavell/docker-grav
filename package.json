@@ -1,0 +1,19 @@
+{
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "2.7.1"
+  },
+  "lint-staged": {
+    "**/*": "npx prettier --write --ignore-unknown"
+  },
+  "scripts": {
+    "prepare": "yarn husky install",
+    "format": "npx prettier --check .",
+    "format-fix": "npx prettier --write .",
+    "commitlint": "npx commitlint --from=HEAD~1",
+    "validate": "yarn commitlint & yarn format"
+  }
+}
