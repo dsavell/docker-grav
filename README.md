@@ -34,12 +34,16 @@ The architectures supported by this image are:
 
 This image provides various versions that are available via tags.
 
-|          Tag          | Available | Description                              |
-| :-------------------: | :-------: | ---------------------------------------- |
-|         admin         |    ✅     | Stable Grav Core + Admin plugin releases |
-|         core          |    ✅     | Stabe Grav Core releases                 |
-| admin-\<version tag\> |    ✅     | Pinned Grav Core + Admin plugin releases |
-| core-\<version tag\>  |    ✅     | Pinned Grav Core releases                |
+|              Tag               | Available | Description                                     |
+| :----------------------------: | :-------: | ----------------------------------------------- |
+|             admin              |    ✅     | Stable Grav Core + Admin plugin releases        |
+|              core              |    ✅     | Stabe Grav Core releases                        |
+|         admin-\<date\>         |    ✅     | Stable Grav Core + Admin plugin releases + date |
+|         core-\<date\>          |    ✅     | Stabe Grav Core releases + date                 |
+|     admin-\<version tag\>      |    ✅     | Pinned Grav Core + Admin plugin releases        |
+|      core-\<version tag\>      |    ✅     | Pinned Grav Core releases                       |
+| admin-\<version tag\>-\<date\> |    ✅     | Pinned Grav Core + Admin plugin releases + date |
+| core-\<version tag\>-\<date\>  |    ✅     | Pinned Grav Core releases + date                |
 
 ## Application Setup
 
@@ -127,6 +131,7 @@ In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as bel
 ## Changelog
 
 - **24/07/2022:**
+  - Added moved from `master branch` to `main` branch.
   - Added `commitlint` function to verify proper commit messages.
   - Added `.editorconfig` to ensure standards across IDE's.
   - Added `.gitattributes` to ensure standards across git CLI.
