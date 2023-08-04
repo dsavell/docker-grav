@@ -73,7 +73,7 @@ DGID=${DGID:-911}
 
 groupmod -o -g "$DGID" xyz
 usermod -o -u "$DUID" xyz
-sed -i -e 's/www-data/xyz/g' /etc/php/7.4/fpm/pool.d/www.conf
+sed -i -e 's/www-data/xyz/g' /etc/php/8.2/fpm/pool.d/www.conf
 
 # Set Permissions
 chown -R xyz:xyz /var/www
@@ -88,7 +88,7 @@ umask 0002
 bin/grav scheduler -i
 crontab -l
 
-service php7.4-fpm start
+service php8.2-fpm start
 service nginx start
 ## start cron
 service cron start
