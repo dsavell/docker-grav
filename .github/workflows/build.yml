@@ -93,7 +93,7 @@ jobs:
 
       - name: Generate Docker Metadata
         id: docker-meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             dsavell/grav
@@ -148,7 +148,7 @@ jobs:
 
       - name: Generate Docker Metadata
         id: docker-meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             dsavell/grav
