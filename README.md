@@ -102,11 +102,12 @@ Container images are configured using parameters passed at runtime (such as thos
 
 |               Parameter               | Function                                                         |
 | :-----------------------------------: | ---------------------------------------------------------------- |
-|                `-p 80`                | Http webUI.                                                      |
+|                `-p 80`                | Http webUI                                                       |
 |            `-e DUID=1000`             | for UserID - see below for explanation                           |
 |            `-e DGID=1000`             | for GroupID - see below for explanation                          |
-| `-e TZ-e GRAV_MULTISITE=subdirectory` | Deploy a Grav multisite (subdirectory) installation.             |
-|      `-e ROBOTS_DISALLOW=false`       | Replace default /robots.txt file with one discouraging indexers. |
+|      `-e TZ=America/Los_Angeles`      | Set your timezone                                                |
+|      `-e GRAV_MULTISITE=subdirectory` | Deploy a Grav multisite (subdirectory) installation              |
+|      `-e ROBOTS_DISALLOW=false`       | Replace default /robots.txt file with one discouraging indexers  |
 |         `-v /var/www/backup`          | Contains your location for Grav backups                          |
 |          `-v /var/www/logs`           | Contains your location for your Grav log files                   |
 |          `-v /var/www/user`           | Contains your Grav content                                       |
