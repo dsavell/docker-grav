@@ -107,6 +107,7 @@ Container images are configured using parameters passed at runtime (such as thos
 |            `-e DGID=1000`             | for GroupID - see below for explanation                          |
 |      `-e TZ=America/Los_Angeles`      | Set your timezone                                                |
 |      `-e GRAV_MULTISITE=subdirectory` | Deploy a Grav multisite (subdirectory) installation              |
+|   `-e GRAV_PLUGINS=devtools,precache` | Install extra plugins automaticall (must be comma separated)     |
 |      `-e ROBOTS_DISALLOW=false`       | Replace default /robots.txt file with one discouraging indexers  |
 |         `-v /var/www/backup`          | Contains your location for Grav backups                          |
 |          `-v /var/www/logs`           | Contains your location for your Grav log files                   |
