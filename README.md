@@ -56,20 +56,21 @@ More information can be found on the official documentation [here](https://learn
 Here are some example snippets to help you get started creating a container.
 
 ### docker-compose
-
 ```yaml
 ---
 version: '2.1'
 services:
   grav:
-    image: dsavell/grav:latest
+    image: dsavell/grav:<TAG>
     container_name: grav
     restart: unless-stopped
     environment:
       - DUID=1000
       - DGID=1000
+      - TZ=Europe/London # optional
       - GRAV_MULTISITE=subdirectory # optional
       - ROBOTS_DISALLOW=false # optional
+      - GRAV_PLUGINS=devtools,precache # optional
     volumes:
       - /data/containers/grav/backup:/var/www/grav/backup
       - /data/containers/grav/logs:/var/www/grav/log
@@ -87,12 +88,14 @@ docker create \
   -e DUID=1000 \
   -e DGID=1000 \
   -p 80:80 \
+  -e TZ=Europe/London `# optional` \
   -e GRAV_MULTISITE=subdirectory `# optional` \
   -e ROBOTS_DISALLOW=false `# optional` \
+  -e GRAV_PLUGINS=devtools,precache `# optional` \
   -v /data/containers/grav/backup:/var/www/grav/backup \
   -v /data/containers/grav/logs:/var/www/grav/logs \
   -v /data/containers/grav/user:/var/www/grav/user \
-  dsavell/grav:latest
+  dsavell/grav:<TAG>
 docker start grav
 ```
 
@@ -102,11 +105,13 @@ Container images are configured using parameters passed at runtime (such as thos
 
 |               Parameter               | Function                                                         |
 | :-----------------------------------: | ---------------------------------------------------------------- |
-|                `-p 80`                | Http webUI.                                                      |
+|                `-p 80`                | Http webUI                                                       |
 |            `-e DUID=1000`             | for UserID - see below for explanation                           |
 |            `-e DGID=1000`             | for GroupID - see below for explanation                          |
 | `-e TZ-e GRAV_MULTISITE=subdirectory` | Deploy a Grav multisite (subdirectory) installation.             |
 |      `-e ROBOTS_DISALLOW=false`       | Replace default /robots.txt file with one discouraging indexers. |
+|      `-e TZ=Europe/London`            | Set your timezone                                                |
+|   `-e GRAV_PLUGINS=devtools,precache` | Install extra plugins automaticall (must be comma separated)     |
 |         `-v /var/www/backup`          | Contains your location for Grav backups                          |
 |          `-v /var/www/logs`           | Contains your location for your Grav log files                   |
 |          `-v /var/www/user`           | Contains your Grav content                                       |
@@ -130,6 +135,14 @@ In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as bel
 
 ## Changelog
 
+- **03/10/2023:**
+  - Removed cumbersome DevOps steps.
+  - Updated GitHub workflows with nodejs 20.x
+  - Updated pre-commit hooks.
+  - Updated OS from bullseye to bookworm.
+  - Updated PHP 7.4 to 8.2. Thanks to [funilrys](https://github.com/funilrys) [#56](https://github.com/dsavell/docker-grav/pull/56)
+  - Updated some documentation regarding installation steps.
+  - Added ability to install plugins. Thanks to [tyzbit](https://github.com/tyzbit) [#64](https://github.com/dsavell/docker-grav/pull/64)
 - **24/07/2022:**
   - Added moved from `master branch` to `main` branch.
   - Added `commitlint` function to verify proper commit messages.
