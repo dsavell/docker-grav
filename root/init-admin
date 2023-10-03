@@ -47,8 +47,17 @@ case $GRAV_MULTISITE in
     mkdir -p /var/www/grav/user/sites
     ;;
   *)
+   echo "Multisite not enabled, continuing"
   ;;
 esac
+
+# install plugins
+if [[ "${GRAV_PLUGINS}x" != "x" ]]; then
+  IFS=',' read -ra plugins <<< "$GRAV_PLUGINS"
+  for plugin in "${plugins[@]}"; do
+    bin/gpm install -n "${plugin}"
+  done
+fi
 
 # allow specifying a custom client_max_body_size for nginx
 if [[ -n $NGINX_CLIENT_MAX_BODY_SIZE ]]; then
