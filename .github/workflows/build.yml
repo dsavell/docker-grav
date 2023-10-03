@@ -31,7 +31,6 @@ jobs:
   docker-build-pr:
     if: github.event_name == 'pull_request'
     needs:
-      - standards-validate
       - docker-validate
     strategy:
       matrix:
@@ -86,7 +85,6 @@ jobs:
   docker-build-main:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs:
-      - standards-validate
       - docker-validate
     strategy:
       matrix:
