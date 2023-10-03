@@ -67,8 +67,10 @@ services:
     environment:
       - DUID=1000
       - DGID=1000
+      - TZ=Europe/London # optional
       - GRAV_MULTISITE=subdirectory # optional
       - ROBOTS_DISALLOW=false # optional
+      - GRAV_PLUGINS=devtools,precache # optional
     volumes:
       - /data/containers/grav/backup:/var/www/grav/backup
       - /data/containers/grav/logs:/var/www/grav/log
@@ -86,8 +88,10 @@ docker create \
   -e DUID=1000 \
   -e DGID=1000 \
   -p 80:80 \
+  -e TZ=Europe/London `# optional` \
   -e GRAV_MULTISITE=subdirectory `# optional` \
   -e ROBOTS_DISALLOW=false `# optional` \
+  -e GRAV_PLUGINS=devtools,precache `# optional` \
   -v /data/containers/grav/backup:/var/www/grav/backup \
   -v /data/containers/grav/logs:/var/www/grav/logs \
   -v /data/containers/grav/user:/var/www/grav/user \
