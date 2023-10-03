@@ -56,13 +56,12 @@ More information can be found on the official documentation [here](https://learn
 Here are some example snippets to help you get started creating a container.
 
 ### docker-compose
-
 ```yaml
 ---
 version: '2.1'
 services:
   grav:
-    image: dsavell/grav:latest
+    image: dsavell/grav:<TAG>
     container_name: grav
     restart: unless-stopped
     environment:
@@ -92,7 +91,7 @@ docker create \
   -v /data/containers/grav/backup:/var/www/grav/backup \
   -v /data/containers/grav/logs:/var/www/grav/logs \
   -v /data/containers/grav/user:/var/www/grav/user \
-  dsavell/grav:latest
+  dsavell/grav:<TAG>
 docker start grav
 ```
 
