@@ -57,4 +57,4 @@ COPY root/ /
 
 WORKDIR /var/www/grav
 
-CMD ["/init-core"]
+CMD ["/init-core.sh"]
