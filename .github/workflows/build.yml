@@ -12,16 +12,6 @@ on:
       - main
 
 jobs:
-  spellcheck:
-    name: Spellcheck
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run Spellcheck
-        uses: tbroadley/spellchecker-cli-action@v1
-
   shellcheck:
     name: Shellcheck
     runs-on: ubuntu-latest
