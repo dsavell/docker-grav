@@ -13,13 +13,14 @@ on:
 
 jobs:
   spellcheck:
-    name: Shellcheck
+    name: Spellcheck
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - uses: rojopolis/spellcheck-github-actions@v0
+      - name: Run Spellcheck
+        uses: rojopolis/spellcheck-github-actions@v0
 
   shellcheck:
     name: Shellcheck
@@ -29,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Shellcheck
-        uses: ludeeus/action-shellcheck@2.0.0
+        uses: tbroadley/spellchecker-cli-action@v1
 
   markdownlint:
     name: Markdownlint
