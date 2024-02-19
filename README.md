@@ -129,9 +129,9 @@ docker run -d \
   - Updated baseimage from stretch to buster.
     - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
   - Added cron & added cronjob allows jobs to be run on a periodic basic, GRAV relies on this.
-     - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+    - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
   - Added php7.3-intl for Multilang support for twig tools.
-     - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+    - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
   - Enabled caching in Nginx for tools that analyze speed performance (like gtmetrix)
     - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
   - Startup scripts now enable cron.
