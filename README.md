@@ -53,7 +53,7 @@ docker run -d \
 
 - **XX/XX/2024: UPCOMING BREAKING CHANGE**
   - Consolidated Dockerfiles.
-  - Plugins such as the admin UI should be installed via the GRAV_PLUGINS environment variable instead now.
+  - Plugins such as the admin UI should be installed via the GRAV_PLUGINS environment variable.
   - Complete overhaul on how Grav is installed.
   - Added update plugins functionality directly with `docker exec`.
   - Grav Scheduler should now work and not error within the admin UI.

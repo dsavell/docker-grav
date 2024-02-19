@@ -49,9 +49,6 @@ jobs:
 
   dockerlint:
     name: Dockerlint
-    strategy:
-      matrix:
-        tag: [core, admin]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -60,4 +57,4 @@ jobs:
       - name: Run Hadolint
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: Dockerfile.grav${{ matrix.tag }}
+          dockerfile: Dockerfile
