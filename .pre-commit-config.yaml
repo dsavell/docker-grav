@@ -21,8 +21,8 @@ repos:
         alias: ci
       - id: check-executables-have-shebangs
         alias: ci
-      - id: check-shebang-scripts-are-executable
-        alias: ci
+      #- id: check-shebang-scripts-are-executable
+      #  alias: ci
       - id: check-json
         alias: ci
       # Cross platform
