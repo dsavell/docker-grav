@@ -1,4 +1,4 @@
-# dsavell/docker-grav
+# Docker dsavell/docker-grav
 
 ![grav](https://getgrav.org/user/pages/media/grav-logo.svg)
 
@@ -100,8 +100,10 @@ docker run -d \
 - **10/04/2021:**
   - Updated to Grav 1.7.10
   - Updated to PHP 7.4.x
-  - Fix permissions on startup because of topic names with whitespaces. Thanks to [Miroka96](https://github.com/Miroka96) [#22](https://github.com/dsavell/docker-grav/pull/23)
-  - Added support for multisite subdirectory. Thanks to [hughbris](https://github.com/hughbris) [#21](https://github.com/dsavell/docker-grav/pull/21)
+  - Fix permissions on startup because of topic names with whitespaces.
+    - Thanks to [Miroka96](https://github.com/Miroka96) [#22](https://github.com/dsavell/docker-grav/pull/23)
+  - Added support for multisite subdirectory.
+    - Thanks to [hughbris](https://github.com/hughbris) [#21](https://github.com/dsavell/docker-grav/pull/21)
   - Fixed uploading to the CMS using a tmp directory this is now /var/www/grav/tmp.
 - **11/10/2020:**
   - Updated to Grav 1.6.28
@@ -110,26 +112,36 @@ docker run -d \
 - **01/06/2020:**
   - Updated to Grav 1.6.25
 - **22/04/2020:**
-  - Fix permissions for cron & GRAV Scheduler. Thanks to [SykieChen](https://github.com/SykieChen) [#19](https://github.com/dsavell/docker-grav/pull/19)
+  - Fix permissions for cron & GRAV Scheduler.
+    - Thanks to [SykieChen](https://github.com/SykieChen) [#19](https://github.com/dsavell/docker-grav/pull/19)
 - **12/04/2020:**
   - Updated to Grav 1.6.23
 - **20/02/2020:**
   - Updated to Grav 1.6.21
 - **09/12/2019:**
-  - Fixed missing php7.3-mbstring on admin tag. Thanks to [Miroka96](https://github.com/Miroka96) [#13](https://github.com/dsavell/docker-grav/pull/13)
+  - Fixed missing php7.3-mbstring on admin tag.
+    - Thanks to [Miroka96](https://github.com/Miroka96) [#13](https://github.com/dsavell/docker-grav/pull/13)
 - **08/12/2019:**
   - Updated to Grav 1.6.19
-  - Fixed crontab schedules. Thanks to [coldestheart](https://github.com/coldestheart) [#11](https://github.com/dsavell/docker-grav/pull/11)
+  - Fixed crontab schedules.
+    - Thanks to [coldestheart](https://github.com/coldestheart) [#11](https://github.com/dsavell/docker-grav/pull/11)
 - **30/11/2019:**
-  - Updated baseimage from stretch to buster. Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
-  - Added cron & added cronjob allows jobs to be run on a periodic basic, GRAV relies on this. Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
-  - Added php7.3-intl for Multilang support for twig tools. Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
-  - Enabled caching in Nginx for tools that analyze speed performance (like gtmetrix) Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
-  - Startup scripts now enable cron. Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+  - Updated baseimage from stretch to buster.
+    - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+  - Added cron & added cronjob allows jobs to be run on a periodic basic, GRAV relies on this.
+     - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+  - Added php7.3-intl for Multilang support for twig tools.
+     - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+  - Enabled caching in Nginx for tools that analyze speed performance (like gtmetrix)
+    - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
+  - Startup scripts now enable cron.
+    - Thanks to [coldestheart](https://github.com/coldestheart) [#10](https://github.com/dsavell/docker-grav/pull/10)
 - **15/11/2019:**
-  - Fixed working directory this is now set to /var/ww/grav, now commands like bin/grav & bin/gpm can be used directly. Thanks to [aptonline](https://github.com/aptonline) [#9](https://github.com/dsavell/docker-grav/issues/9)
+  - Fixed working directory this is now set to /var/ww/grav, now commands like bin/grav & bin/gpm can be used directly.
+    - Thanks to [aptonline](https://github.com/aptonline) [#9](https://github.com/dsavell/docker-grav/issues/9)
 - **10/08/2019:**
-  - Fixed GRAV user directory being overwritten when rebuilding container. Thanks to [Miroka96](https://github.com/Miroka96) [#6](https://github.com/dsavell/docker-grav/issues/6)
+  - Fixed GRAV user directory being overwritten when rebuilding container.
+    - Thanks to [Miroka96](https://github.com/Miroka96) [#6](https://github.com/dsavell/docker-grav/issues/6)
 - **18/06/2019:** The Better Release?
   - Better File/Volume control
   - Better tagging / versioning of GRAV Core.
@@ -143,14 +155,15 @@ docker run -d \
   - blog image removed.
   - GRAV Core & GRAV Core + Admin Plugin only images for now.
   - Smaller Docker layering.
-  - Fixed nginx configuration thanks to [esapy](https://github.com/esapy) [#1](https://github.com/dsavell/docker-grav/issues/1)
+  - Fixed nginx configuration.
+    - Thanks to [esapy](https://github.com/esapy) [#1](https://github.com/dsavell/docker-grav/issues/1)
 - **10/04/2018:** The Volume Release
   - The /var/www volume can now be mounted.
 - **02/01/2018:** The 2018 Release
   - Improved Code
   - Now using github API to pull latest GRAV release
 - **27/07/2017:** The Automated Release
-  - Updated tag "blog" to now use github API to download latest [Blog-Skeleton](http://demo.getgrav.org/blog-skeleton) zip file
+  - Updated tag "blog" to now use github API to download latestvBlog-Skeleton
   - Improved code on all tags
   - Typo corrections on the README.md
 - **29/06/2017:** The Blog Release
