@@ -81,5 +81,22 @@ jobs:
       - name: Docker - Build
         uses: docker/build-push-action@v5
         with:
+          file: ./Dockerfile
+          load: true
           platforms: linux/amd64,linux/arm64
           push: false
+          tags: ${{ github.run_id }}
+
+      - name: Docker - Run
+        run: |
+          docker run -d \
+            --name=grav \
+            -p 80:80/tcp \
+            -env-file .env.example \
+            -v ./grav/backup:/grav/backup
+            -v ./grav/user:/grav/user
+            ${{ github.run_id }}
+
+      - name: Test listening ports
+        run: |
+          nc -z -u -v 127.0.0.1: 80 || exit 1
