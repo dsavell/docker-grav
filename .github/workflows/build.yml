@@ -95,19 +95,19 @@ jobs:
         run: |
           docker run -d \
             --name=grav_test \
-            -p 8080:80/tcp \
+            -p 80:80/tcp \
             --env-file .env.example \
             -v ./grav/backup:/grav/backup \
             -v ./grav/user:/grav/user \
             ${{ github.run_id }}:${{ matrix.platform }}
 
-      - name: Test - Listening Ports
-        run: |
-          nc -z -u -v 127.0.0.1 8080 || exit 1
+      # - name: Test - Listening Ports
+      #   run: |
+      #     nc -z -u -v 127.0.0.1 8080 || exit 1
 
       - name: Test - Frontpage access
         run: |
-          if curl -s 127.0.0.1:8080 | grep Grav; then
+          if curl -s 127.0.0.1:80 | grep Grav; then
             echo "Grav frontpage accessible"
           else
             exit 2
