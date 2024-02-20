@@ -60,14 +60,17 @@ jobs:
         with:
           dockerfile: Dockerfile
 
-  docker-build:
+  docker-test:
     needs:
       - shellcheck
       - markdownlint
       - yamllint
       - dockerlint
-    name: Docker Build
+    name: Docker Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [amd64, arm64]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -82,9 +85,11 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/${{ matrix.platform }}
           push: false
-          tags: ${{ github.run_id }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ github.run_id }}:${{ matrix.platform }}
 
       - name: Docker - Run
         run: |
@@ -92,15 +97,15 @@ jobs:
             --name=grav \
             -p 80:80/tcp \
             -env-file .env.example \
-            -v ./grav/backup:/grav/backup
-            -v ./grav/user:/grav/user
-            ${{ github.run_id }}
+            -v ./grav/backup:/grav/backup \
+            -v ./grav/user:/grav/user \
+            ${{ github.run_id }}:${{ matrix.platform }}
 
-      - name: Test listening ports
+      - name: Test - Listening Ports
         run: |
           nc -z -u -v 127.0.0.1 80 || exit 1
 
-      - name: Test frontpage access
+      - name: Test - Frontpage access
         run: |
           if curl -s 127.0.0.1:80 | grep Grav; then
             echo "Grav frontpage accessible"
