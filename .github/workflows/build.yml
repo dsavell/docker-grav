@@ -94,7 +94,7 @@ jobs:
       - name: Docker - Run
         run: |
           docker run -d \
-            --name=dsavell/grav_test \
+            --name=grav_test \
             -p 80:80/tcp \
             --env-file .env.example \
             -v ./grav/backup:/grav/backup \
