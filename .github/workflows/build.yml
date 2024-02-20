@@ -1,6 +1,7 @@
+---
 name: Build
 
-on:
+on: # yamllint disable-line rule:truthy
   schedule:
     - cron: '0 1 * * *' # Everyday at 01:00am
   workflow_dispatch:

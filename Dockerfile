@@ -13,11 +13,13 @@ RUN \
     ca-certificates \
     cron \
     curl \
+    git \
     lsb-release \
     nano \
     nginx \
     tzdata \
-    unzip && \
+    unzip \
+    vim && \
   # Create unpriviliged user
   useradd -m "${USER}" && \
   # Install PHP APT Repository
