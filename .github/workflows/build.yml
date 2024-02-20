@@ -86,7 +86,7 @@ jobs:
         with:
           file: ./Dockerfile
           platforms: linux/${{ matrix.platform }}
-          push: false
+          load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ github.run_id }}:${{ matrix.platform }}
