@@ -95,7 +95,7 @@ jobs:
         run: |
           docker run -d \
             --name=grav_test \
-            -p 127.0.0.1:8080:80/tcp \
+            -p 127.0.0.1:8080:80 \
             --env-file .env.example \
             -v ./grav/backup:/grav/backup \
             -v ./grav/user:/grav/user \
