@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# shellcheck source=/dev/null
+# shellcheck source=home/grav/server/helpers.sh
 source "/home/grav/server/helpers.sh"
 
 LogAction "Generating php www.conf"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# shellcheck source=/dev/null
+# shellcheck source=home/grav/server/helpers.sh
 source "/home/grav/server/helpers.sh"
 
 if [[ ! "${PUID}" -eq 0 ]] && [[ ! "${PGID}" -eq 0 ]]; then
@@ -15,7 +15,7 @@ fi
 chown -R grav:grav /grav /home/grav
 
 #
-# Install
+# Install Grav
 #
 LogAction "Starting Grav Installation"
 unzip -qn /tmp/grav.zip -d /
@@ -25,7 +25,7 @@ ln -sf /dev/stderr /grav/logs/grav.log
 LogAction "Finished Grav Installation"
 
 #
-# Install Plugins
+# Install Grav Plugins
 #
 if [[ "${GRAV_PLUGINS}x" != "x" ]]; then
   IFS=',' read -ra plugins <<< "$GRAV_PLUGINS"
@@ -38,8 +38,8 @@ if [[ "${GRAV_PLUGINS}x" != "x" ]]; then
 fi
 
 #
-# Compile & start
+# Setup Nginx & start
 #
-/home/grav/server/compile-nginx.sh
+/home/grav/server/setup-nginx.sh
 service php8.2-fpm start
 service nginx start
