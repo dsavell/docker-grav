@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# shellcheck source=home/grav/server/helpers.sh
+# shellcheck source=files/home/grav/server/helpers.sh
 source "/home/grav/server/helpers.sh"
 
 if [[ ! "${PUID}" -eq 0 ]] && [[ ! "${PGID}" -eq 0 ]]; then
