@@ -94,12 +94,12 @@ jobs:
       - name: Docker - Run
         run: |
           docker run -d \
-            --name=dsavell/grav_test \
-            -p 80:80/tcp \
-            -env-file .env.example \
-            -v ./grav/backup:/grav/backup \
-            -v ./grav/user:/grav/user \
-            ${{ github.run_id }}:${{ matrix.platform }}
+          --name=dsavell/grav_test \
+          -p 80:80/tcp \
+          -env-file .env.example \
+          -v ./grav/backup:/grav/backup \
+          -v ./grav/user:/grav/user \
+          ${{ github.run_id }}:${{ matrix.platform }}
 
       - name: Test - Listening Ports
         run: |
