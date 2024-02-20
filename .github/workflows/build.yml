@@ -82,7 +82,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           file: ./Dockerfile
-          load: true
           platforms: linux/amd64,linux/arm64
           push: false
           tags: ${{ github.run_id }}
@@ -99,4 +98,12 @@ jobs:
 
       - name: Test listening ports
         run: |
-          nc -z -u -v 127.0.0.1: 80 || exit 1
+          nc -z -u -v 127.0.0.1 80 || exit 1
+
+      - name: Test frontpage access
+        run: |
+          if curl -s 127.0.0.1:80 | grep Grav; then
+            echo "Grav frontpage accessible"
+          else
+            exit 2
+          fi
