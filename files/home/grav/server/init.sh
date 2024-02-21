@@ -19,9 +19,9 @@ chown -R grav:grav /grav /home/grav
 #
 LogAction "Starting Grav Installation"
 unzip -qn /tmp/grav.zip -d /
-chown -R grav:grav /grav
 su grav -c '(crontab -l; echo "* * * * * grav cd /grav;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -'
 ln -sf /dev/stderr /grav/logs/grav.log
+chown -R grav:grav /grav
 LogAction "Finished Grav Installation"
 
 #
