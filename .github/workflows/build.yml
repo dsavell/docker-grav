@@ -103,7 +103,7 @@ jobs:
 
       - name: Test - Listening Port 80
         run: |
-          sleep 5s
+          sleep 10s
           nc -z -v 127.0.0.1 80 || exit 1
 
       - name: Test - Frontpage access
