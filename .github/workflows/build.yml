@@ -108,7 +108,7 @@ jobs:
 
       - name: Test - Frontpage access
         run: |
-          sleep 5s
+          sleep 10s
           if curl -v --silent 127.0.0.1:80/admin | grep Grav; then
             echo "Grav frontpage accessible"
           else
