@@ -106,11 +106,19 @@ jobs:
           sleep 5s
           nc -z -v 127.0.0.1 80 || exit 1
 
-      - name: Test - Frontpage access
+      - name: Test - Webpage access
         run: |
           sleep 20s
           if curl -v --silent 127.0.0.1:80/admin | grep Grav; then
-            echo "Grav frontpage accessible"
+            echo "Grav webpage accessible"
           else
             exit 2
+          fi
+
+      - name: Test - Update plugins function
+        run: |
+          if docker exec grav_test update-plugins | grep 'Nothing to update'; then
+            echo "Grav update plugins function OK"
+          else
+            exit 3
           fi

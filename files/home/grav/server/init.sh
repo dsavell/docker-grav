@@ -19,7 +19,6 @@ chown -R grav:grav /grav /home/grav
 #
 LogAction "Starting Grav Installation"
 unzip -qn /tmp/grav.zip -d /
-chown -R grav:grav /grav
 su grav -c '(crontab -l; echo "* * * * * grav cd /grav;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -'
 ln -sf /dev/stderr /grav/logs/grav.log
 LogAction "Finished Grav Installation"
@@ -36,6 +35,14 @@ if [[ "${GRAV_PLUGINS}x" != "x" ]]; then
     LogAction "Finished ${plugin} plugin Installation"
   done
 fi
+
+if [[ ${ROBOTS_DISALLOW} ]]; then
+  LogAction "Overwrite default robots.txt with disallow /"
+  cp -f /tmp/robots.disallow.txt /grav/robots.txt
+  LogAction "Finished overwrite of robots.txt"
+fi
+
+chown -R grav:grav /grav
 
 #
 # Setup Nginx & start

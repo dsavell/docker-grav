@@ -41,7 +41,8 @@ RUN \
 COPY files/ /
 
 ENV PUID=1000 \
-  PGID=1000
+  PGID=1000 \
+  TZ=Europe/London
 
 RUN \
   chmod +x /home/grav/server/*.sh && \
@@ -51,4 +52,4 @@ WORKDIR /home/grav/server
 
 EXPOSE 80
 
-CMD ["/home/grav/server/init.sh"]
+ENTRYPOINT ["/home/grav/server/init.sh"]
