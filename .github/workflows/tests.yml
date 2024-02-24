@@ -1,0 +1,82 @@
+---
+name: Testing
+
+on: # yamllint disable-line rule:truthy
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: testing-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docker-test:
+    name: Docker Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [amd64, arm64]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker - Build
+        uses: docker/build-push-action@v5
+        with:
+          file: ./Dockerfile
+          platforms: linux/${{ matrix.platform }}
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ github.run_id }}:${{ matrix.platform }}
+
+      - name: Docker - Run
+        run: |
+          docker run -d \
+            --name=grav_test \
+            -p 127.0.0.1:80:80/tcp \
+            --env-file .env.example \
+            -v ./grav/backup:/grav/backup \
+            -v ./grav/user:/grav/user \
+            ${{ github.run_id }}:${{ matrix.platform }}
+
+      - name: Test - Listening Port 80
+        run: |
+          sleep 5s
+          nc -z -v 127.0.0.1 80 || exit 1
+
+      - name: Test - Webpage access
+        run: |
+          sleep 20s
+          if curl -v --silent 127.0.0.1:80/admin | grep Grav; then
+            echo "Grav webpage accessible"
+          else
+            exit 2
+          fi
+
+      - name: Test - Update plugins function
+        run: |
+          if docker exec grav_test update-plugins | grep 'Nothing to update'; then
+            echo "Grav update plugins function OK"
+          else
+            exit 3
+          fi
+
+      - name: Test - Backup function
+        run: |
+          if docker exec grav_test backup | grep 'Backup Successfully Created'; then
+            echo "Grav backup successfull"
+          else
+            exit 4
+          fi
