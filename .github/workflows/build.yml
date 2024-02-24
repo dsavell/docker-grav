@@ -134,3 +134,42 @@ jobs:
           else
             exit 4
           fi
+
+  docker-security:
+    needs:
+      - shellcheck
+      - markdownlint
+      - yamllint
+      - dockerlint
+      - docker-test
+    name: Docker Security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker - Build
+        uses: docker/build-push-action@v5
+        with:
+          file: ./Dockerfile
+          platforms: linux/${{ matrix.platform }}
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: security
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: security
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
