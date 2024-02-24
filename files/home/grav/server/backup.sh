@@ -5,6 +5,6 @@ source "/home/grav/server/helpers.sh"
 
 cd /grav || exit
 
-LogAction "Starting plugins update"
-su grav -c 'bin/gpm update -n'
-LogAction "Finished plugins update"
+LogAction "Starting backup"
+su grav -c 'bin/grav backup -n --no-ansi'
+LogAction "Finished backup"

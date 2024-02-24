@@ -126,3 +126,11 @@ jobs:
           else
             exit 3
           fi
+
+      - name: Test - Backup function
+        run: |
+          if docker exec grav_test backup | grep 'Backup Successfully Created'; then
+            echo "Grav backup successfull"
+          else
+            exit 4
+          fi

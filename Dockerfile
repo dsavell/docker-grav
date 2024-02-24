@@ -41,7 +41,8 @@ COPY files/ /
 
 RUN \
   chmod +x /home/grav/server/*.sh && \
-  mv /home/grav/server/update-plugins.sh /usr/local/bin/update-plugins
+  mv /home/grav/server/update-plugins.sh /usr/local/bin/update-plugins && \
+  mv /home/grav/server/backup.sh /usr/local/bin/backup
 
 WORKDIR /home/grav/server
 

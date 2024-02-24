@@ -19,7 +19,6 @@ fi
 LogAction "Starting Grav Installation"
 su grav -c 'unzip -qn /tmp/grav.zip -d /'
 su grav -c '(crontab -l; echo "* * * * * grav cd /grav;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -'
-ln -sf /dev/stderr /grav/logs/grav.log
 rm -rf /tmp/grav.zip
 LogAction "Finished Grav Installation"
 
