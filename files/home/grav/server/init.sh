@@ -7,27 +7,27 @@ if [[ ! "${PUID}" -eq 0 ]] && [[ ! "${PGID}" -eq 0 ]]; then
   LogAction "Executing usermod"
   usermod -o -u "${PUID}" grav
   groupmod -o -g "${PGID}" grav
+  chown -R grav:grav /grav /home/grav
 else
-    LogError "Running as root is not supported, please fix your PUID and PGID!"
-    exit 1
+  LogError "Running as root is not supported, please fix your PUID and PGID!"
+  exit 1
 fi
 
 #
 # Install Grav
 #
 LogAction "Starting Grav Installation"
-unzip -qn /tmp/grav.zip -d /
+su grav -c 'unzip -qn /tmp/grav.zip -d /'
 su grav -c '(crontab -l; echo "* * * * * grav cd /grav;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -'
 ln -sf /dev/stderr /grav/logs/grav.log
+rm -rf /tmp/grav.zip
 LogAction "Finished Grav Installation"
 
 if [[ "${ROBOTS_DISALLOW,,}" = true ]]; then
   LogAction "Overwrite default robots.txt with disallow /"
-  cp -f /tmp/robots.disallow.txt /grav/robots.txt
+  su grav -c 'cp -f /tmp/robots.disallow.txt /grav/robots.txt'
   LogAction "Finished overwrite of robots.txt"
 fi
-
-chown -R grav:grav /grav /home/grav
 
 #
 # Install Grav Plugins

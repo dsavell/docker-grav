@@ -1,7 +1,6 @@
 FROM bitnami/minideb:bookworm
 
 ARG GRAV_VERSION=1.7.43
-ARG SUPERCRONIC_VERSION=0.2.29
 
 LABEL maintainer="dsavell21@gmail.com"
 
@@ -39,10 +38,6 @@ RUN \
   curl -o /tmp/grav.zip -L https://github.com/getgrav/grav/releases/download/"${GRAV_VERSION}"/grav-v"${GRAV_VERSION}".zip
 
 COPY files/ /
-
-ENV PUID=1000 \
-  PGID=1000 \
-  TZ=Europe/London
 
 RUN \
   chmod +x /home/grav/server/*.sh && \
