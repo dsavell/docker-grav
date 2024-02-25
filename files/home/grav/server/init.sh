@@ -42,6 +42,21 @@ if [[ "${GRAV_PLUGINS}x" != "x" ]]; then
 fi
 
 #
+# Setup Multisite
+#
+if [[ "${GRAV_MULTISITE}" == "subdirectory" ]]; then
+  LogAction "Starting subdirectory multisite installation"
+  su grav -c 'cp /tmp/setup_subdirectory.php /grav/setup.php'
+  su grav -c 'mkdir -p /grav/user/sites'
+  LogAction "Finished subdirectory multisite installation"
+elif [[ "${GRAV_MULTISITE}" == "subdomain" ]]; then
+  LogAction "Starting subdomain multisite installation"
+  su grav -c 'cp /tmp/setup_subdomain.php /grav/setup.php'
+  su grav -c 'mkdir -p /grav/user/sites'
+  LogAction "Finished subdomain multisite installation"
+fi
+
+#
 # Setup Nginx & start
 #
 /home/grav/server/setup-nginx.sh
