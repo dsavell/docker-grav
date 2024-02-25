@@ -1,6 +1,6 @@
 FROM bitnami/minideb:bookworm
 
-ARG GRAV_VERSION=1.7.43
+ARG GRAV_VERSION
 
 LABEL maintainer="dsavell21@gmail.com"
 

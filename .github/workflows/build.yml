@@ -1,11 +1,8 @@
 ---
-name: Testing
+name: Build
 
 on: # yamllint disable-line rule:truthy
   workflow_dispatch:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -15,8 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  docker-test:
-    name: Docker Test
+  build-test:
+    name: Build & Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,6 +21,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Get GRAV Version
+        run: |
+          GRAV_VERSION=$(curl -sL "https://api.github.com/repos/getgrav/grav/releases/latest" | grep tag_name | cut -d '"' -f 4)
+          echo "${GRAV_VERSION}"
+          echo "GRAV_VERSION=${GRAV_VERSION}" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -40,6 +43,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ github.run_id }}:${{ matrix.platform }}
+          build-args: |
+            GRAV_VERSION=${{ env.GRAV_VERSION }}
 
       - name: Docker - Run
         run: |
