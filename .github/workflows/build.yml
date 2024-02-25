@@ -49,7 +49,7 @@ jobs:
       - name: Docker - Run
         run: |
           docker run -d \
-            --platform linux/${{ matrix.platform }}
+            --platform linux/${{ matrix.platform }} \
             --name=grav_test \
             -p 127.0.0.1:80:80/tcp \
             --env-file .env.example \
