@@ -1,5 +1,5 @@
 ---
-name: Linting
+name: Lint
 
 on: # yamllint disable-line rule:truthy
   workflow_dispatch:
@@ -11,7 +11,7 @@ on: # yamllint disable-line rule:truthy
       - main
 
 concurrency:
-  group: linting-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: lint-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
