@@ -48,4 +48,3 @@ jobs:
           image-ref: security
           format: 'sarif'
           exit-code: '1'
-          ignore-unfixed: true
