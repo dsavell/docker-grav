@@ -8,7 +8,7 @@ on: # yamllint disable-line rule:truthy
       - main
 
 concurrency:
-  group: testing-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: build-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
