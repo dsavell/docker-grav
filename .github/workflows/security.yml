@@ -47,4 +47,5 @@ jobs:
         with:
           image-ref: security
           format: 'sarif'
+          output: 'trivy-results.sarif'
           exit-code: '1'
