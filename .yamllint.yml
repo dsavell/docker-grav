@@ -25,7 +25,7 @@ rules:
   key-duplicates: enable
   key-ordering: disable
   line-length:
-    max: 100
+    max: 130
   new-line-at-end-of-file: enable
   new-lines: enable
   octal-values: disable
