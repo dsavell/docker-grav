@@ -3,7 +3,7 @@ name: Release
 
 on: # yamllint disable-line rule:truthy
   schedule:
-    - cron: '0 1 * * *' # Everyday at 01:00am
+    - cron: '0 1 * * 0' # At 01:00 on Sunday
   workflow_dispatch:
   push:
     branches:
