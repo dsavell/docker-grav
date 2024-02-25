@@ -13,7 +13,7 @@ $environment = isset($_SERVER['HTTP_HOST'])
     : (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost');
 // Remove port from HTTP_HOST generated $environment
 $environment = strtolower(Utils::substrToString($environment, ':'));
-$folder = "sites/{$environment}";
+$folder = "env/{$environment}";
 
 if ($environment === 'localhost' || !is_dir(ROOT_DIR . "user/{$folder}")) {
     return [];

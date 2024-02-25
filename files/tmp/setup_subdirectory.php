@@ -15,26 +15,26 @@ $path = isset($_SERVER['PATH_INFO'])
 
 // Extract name of subsite from path
 $name = Folder::shift($path);
-$folder = "sites/{$name}";
+$folder = "env/{$name}";
 $prefix = "/{$name}";
 
 if (!$name || !is_dir(ROOT_DIR . "user/{$folder}")) {
-	return [];
+    return [];
 }
 
 // Prefix all pages with the name of the subsite
 $container['pages']->base($prefix);
 
 return [
-	'environment' => $name,
-	'streams' => [
-		'schemes' => [
-			'user' => [
-			   'type' => 'ReadOnlyStream',
-			   'prefixes' => [
-				   '' => ["user/{$folder}"],
-			   ]
-			]
-		]
-	]
+    'environment' => $name,
+    'streams' => [
+        'schemes' => [
+            'user' => [
+               'type' => 'ReadOnlyStream',
+               'prefixes' => [
+                   '' => ["user/{$folder}"],
+               ]
+            ]
+        ]
+    ]
 ];

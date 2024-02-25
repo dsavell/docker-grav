@@ -1,0 +1,55 @@
+---
+name: Security
+
+on: # yamllint disable-line rule:truthy
+  schedule:
+    - cron: '0 1 * * 0' # At 01:00 on Sunday.
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: security-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docker-security:
+    name: Docker Security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get GRAV Version
+        run: |
+          GRAV_VERSION=$(curl -sL "https://api.github.com/repos/getgrav/grav/releases/latest" | grep tag_name | cut -d '"' -f 4)
+          echo "${GRAV_VERSION}"
+          echo "GRAV_VERSION=${GRAV_VERSION}" >> $GITHUB_ENV
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker - Build
+        uses: docker/build-push-action@v5
+        with:
+          file: ./Dockerfile
+          load: true
+          tags: security
+          build-args: |
+            GRAV_VERSION=${{ env.GRAV_VERSION }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: security
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'

@@ -1,0 +1,15 @@
+version: '3'
+services:
+  grav:
+    image: dsavell/grav:latest
+    container_name: grav
+    restart: unless-stopped
+    ports:
+      - 80:80
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./grav/backup:/grav/backup
+      - ./grav/user:/grav/user

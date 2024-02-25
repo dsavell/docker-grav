@@ -1,12 +1,36 @@
----
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
+      # Git
       - id: check-added-large-files
-      - id: check-executables-have-shebangs
-      - id: check-json
-      - id: check-shebang-scripts-are-executable
+        alias: ci
       - id: check-merge-conflict
+        alias: ci
+      - id: check-vcs-permalinks
+        alias: ci
+      - id: forbid-new-submodules
+        alias: ci
+      - id: no-commit-to-branch
+      # Common errors
       - id: end-of-file-fixer
+        alias: ci
       - id: trailing-whitespace
+        alias: ci
+      - id: check-yaml
+        alias: ci
+      - id: check-executables-have-shebangs
+        alias: ci
+      #- id: check-shebang-scripts-are-executable
+      #  alias: ci
+      - id: check-json
+        alias: ci
+      # Cross platform
+      - id: check-case-conflict
+        alias: ci
+      - id: mixed-line-ending
+        alias: ci
+        args: [--fix=lf]
+      # Security
+      - id: detect-private-key
+        alias: ci
