@@ -28,7 +28,7 @@ permissions:
 jobs:
   pre-commit:
     timeout-minutes: 2
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -50,7 +50,7 @@ jobs:
 
   shellcheck:
     timeout-minutes: 1
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -78,7 +78,7 @@ jobs:
 
   yamllint:
     timeout-minutes: 1
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -104,7 +104,7 @@ jobs:
 
   markdownlint:
     timeout-minutes: 1
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -130,7 +130,7 @@ jobs:
 
   actionlint:
     timeout-minutes: 1
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -155,7 +155,7 @@ jobs:
 
   build-test:
     name: Build Image
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
         include:
