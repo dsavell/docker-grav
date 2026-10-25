@@ -95,15 +95,19 @@ jobs:
 
       - name: Test - Grav responds over HTTP
         run: |
+          show_container_diagnostics() {
+            docker inspect --format='status={{.State.Status}} exit={{.State.ExitCode}} error={{.State.Error}}' grav_test
+            docker logs grav_test
+          }
           if ! curl --fail --silent --show-error --location \
             --retry 20 --retry-connrefused --retry-delay 2 --retry-all-errors \
             http://127.0.0.1:8080/ --output /tmp/grav-response.html; then
-            docker logs grav_test
+            show_container_diagnostics
             exit 1
           fi
           if ! grep -qi "Grav" /tmp/grav-response.html; then
             echo "Response did not contain expected Grav content"
-            docker logs grav_test
+            show_container_diagnostics
             exit 1
           fi
 
@@ -113,11 +117,13 @@ jobs:
           if ! curl --fail --silent --show-error --location \
             --retry 20 --retry-connrefused --retry-delay 2 --retry-all-errors \
             http://127.0.0.1:8080/admin/ --output /tmp/grav-admin-response.html; then
+            docker inspect --format='status={{.State.Status}} exit={{.State.ExitCode}} error={{.State.Error}}' grav_test
             docker logs grav_test
             exit 1
           fi
           if ! grep -qi "Grav" /tmp/grav-admin-response.html; then
             echo "Admin response did not contain expected Grav content"
+            docker inspect --format='status={{.State.Status}} exit={{.State.ExitCode}} error={{.State.Error}}' grav_test
             docker logs grav_test
             exit 1
           fi
@@ -125,3 +131,20 @@ jobs:
       - name: Docker - Cleanup
         if: always()
         run: docker rm --force grav_test || true
+
+  trigger-release:
+    name: Trigger Release
+    needs: build-test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-26.04-arm
+    permissions:
+      actions: write
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Trigger Release
+        run: |
+          gh workflow run release.yml \
+            --repo ${{ github.repository }} \
+            --ref ${{ github.ref_name }}
