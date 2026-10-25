@@ -26,6 +26,133 @@ permissions:
   statuses: none
 
 jobs:
+  pre-commit:
+    timeout-minutes: 2
+    runs-on: ubuntu-26.04-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Install python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
+        with:
+          python-version: '3.x'
+
+      - name: Install pre-commit
+        run: |
+          pip3 install pre-commit
+
+      - name: Run pre-commit (ci alias)
+        run: |
+          test -f .pre-commit-config.yaml
+
+          pre-commit run ci --all-files
+
+  shellcheck:
+    timeout-minutes: 1
+    runs-on: ubuntu-26.04-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
+      - name: Run ShellCheck
+        run: |
+          # Find shell scripts safely
+          files=$(git ls-files '*.sh' '*.bash' 2>/dev/null || true)
+
+          test -f .shellcheckrc
+
+          if [ -z "$files" ]; then
+            echo "No shell scripts found"
+            exit 0
+          fi
+
+          echo "Running ShellCheck"
+
+          shellcheck --rcfile=.shellcheckrc -x "$files"
+
+  yamllint:
+    timeout-minutes: 1
+    runs-on: ubuntu-26.04-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Install python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
+        with:
+          python-version: '3.x'
+
+      - name: Install yamllint
+        run: |
+          pip3 install yamllint
+
+      - name: Run yamllint
+        run: |
+          set -euo pipefail
+
+          test -f .yamllint.yml
+
+          echo "Running yamllint"
+
+          yamllint -c .yamllint.yml .
+
+  markdownlint:
+    timeout-minutes: 1
+    runs-on: ubuntu-26.04-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
+        with:
+          node-version: 24.x
+
+      - name: Install markdownlint-cli
+        run: |
+          npm install --global markdownlint-cli2
+
+      - name: Run markdownlint
+        run: |
+          set -euo pipefail
+
+          test -f .markdownlint-cli2.jsonc
+
+          echo "Running markdownlint"
+
+          markdownlint-cli2 --config .markdownlint-cli2.jsonc .
+
+  actionlint:
+    timeout-minutes: 1
+    runs-on: ubuntu-26.04-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Install actionlint
+        run: |
+          set -euo pipefail
+
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+
+          sudo mv actionlint /usr/local/bin/actionlint
+
+          actionlint -version
+
+      - name: Run actionlint
+        run: |
+          set -euo pipefail
+
+          echo "Running actionlint"
+
+          actionlint
+
   build-test:
     name: Build Image
     runs-on: ubuntu-26.04-arm

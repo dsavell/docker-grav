@@ -1,0 +1,12 @@
+{
+  "default": true,
+
+  "MD013": {
+    "line_length": 120
+  },
+
+  "ignores": [
+     "LICENSE.md",
+     "CHANGELOG.md"
+  ]
+}
