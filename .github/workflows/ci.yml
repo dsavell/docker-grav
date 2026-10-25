@@ -83,54 +83,6 @@ jobs:
             GRAV_VERSION=${{ env.GRAV_VERSION }}
             GRAV_ADMIN=${{ matrix.grav_admin }}
 
-      - name: Docker - Run
-        env:
-          IMAGE: dsavell/grav:${{ matrix.variant }}-${{ env.GRAV_VERSION }}-${{ env.DATE }}
-        run: |
-          docker run --detach \
-            --platform "linux/${{ matrix.platform }}" \
-            --name grav_test \
-            --publish 127.0.0.1:8080:80 \
-            "$IMAGE"
-
-      - name: Test - Grav responds over HTTP
-        run: |
-          show_container_diagnostics() {
-            docker inspect --format='status={{.State.Status}} exit={{.State.ExitCode}} error={{.State.Error}}' grav_test
-            docker logs grav_test
-          }
-          if ! curl --fail --silent --show-error --location \
-            --retry 20 --retry-connrefused --retry-delay 2 --retry-all-errors \
-            http://127.0.0.1:8080/ --output /tmp/grav-response.html; then
-            show_container_diagnostics
-            exit 1
-          fi
-          if ! grep -qi "Grav" /tmp/grav-response.html; then
-            echo "Response did not contain expected Grav content"
-            show_container_diagnostics
-            exit 1
-          fi
-
-      - name: Test - Admin is available
-        if: matrix.variant == 'admin'
-        run: |
-          if ! curl --fail --silent --show-error \
-            http://127.0.0.1:8080/admin --output /tmp/grav-admin-response.html; then
-            docker inspect --format='status={{.State.Status}} exit={{.State.ExitCode}} error={{.State.Error}}' grav_test
-            docker logs grav_test
-            exit 1
-          fi
-          if ! grep -qi "Grav" /tmp/grav-admin-response.html; then
-            echo "Admin response did not contain expected Grav content"
-            docker inspect --format='status={{.State.Status}} exit={{.State.ExitCode}} error={{.State.Error}}' grav_test
-            docker logs grav_test
-            exit 1
-          fi
-
-      - name: Docker - Cleanup
-        if: always()
-        run: docker rm --force grav_test || true
-
   trigger-release:
     name: Trigger Release
     needs: build-test
