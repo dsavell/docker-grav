@@ -46,7 +46,7 @@ jobs:
         run: |
           test -f .pre-commit-config.yaml
 
-          pre-commit run ci --all-files
+          pre-commit run --all-files
 
   shellcheck:
     timeout-minutes: 1
