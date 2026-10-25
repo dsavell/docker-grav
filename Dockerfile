@@ -34,9 +34,8 @@ RUN install_packages \
   php-yaml \
   php-zip
 
-RUN rm -f /etc/nginx/sites-enabled/default
-
-RUN sed -i 's|^;*error_log = .*|error_log = /dev/stderr|' \
+RUN rm -f /etc/nginx/sites-enabled/default \
+  && sed -i 's|^;*error_log = .*|error_log = /dev/stderr|' \
       /etc/php/8.4/fpm/php-fpm.conf \
   && sed -i 's|^;*catch_workers_output = .*|catch_workers_output = yes|' \
       /etc/php/8.4/fpm/pool.d/www.conf \
