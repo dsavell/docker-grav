@@ -114,9 +114,8 @@ jobs:
       - name: Test - Admin is available
         if: matrix.variant == 'admin'
         run: |
-          if ! curl --fail --silent --show-error --location \
-            --retry 20 --retry-connrefused --retry-delay 2 --retry-all-errors \
-            http://127.0.0.1:8080/admin/ --output /tmp/grav-admin-response.html; then
+          if ! curl --fail --silent --show-error \
+            http://127.0.0.1:8080/admin --output /tmp/grav-admin-response.html; then
             docker inspect --format='status={{.State.Status}} exit={{.State.ExitCode}} error={{.State.Error}}' grav_test
             docker logs grav_test
             exit 1

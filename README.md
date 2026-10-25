@@ -136,6 +136,7 @@ In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as bel
   - BREAKING CHANGES!!!!!
   - Updated OS from bookworm to trixie
   - Updated to PHP 8.4 INCLUDES FIX FOR LATEST CVE!!!!
+  - Include ARM image
   - Stripped back to one docker file with ARGS.
   - Removed confusing logic in init-admin and init-core.
   - Stripped back nginx configuration and moved to gravs own /etc/nginx/conf.d/grav.conf
