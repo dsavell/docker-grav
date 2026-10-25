@@ -27,13 +27,13 @@ jobs:
         run: |
           DATE=$(date +"%Y%m%d")
           echo "${DATE}"
-          echo "DATE=${DATE}" >> $GITHUB_ENV
+          echo "DATE=${DATE}" >> "$GITHUB_ENV"
 
       - name: Get GRAV Version
         run: |
           GRAV_VERSION=$(curl -sL "https://api.github.com/repos/getgrav/grav/releases/latest" | grep tag_name | cut -d '"' -f 4)
           echo "${GRAV_VERSION}"
-          echo "GRAV_VERSION=${GRAV_VERSION}" >> $GITHUB_ENV
+          echo "GRAV_VERSION=${GRAV_VERSION}" >> "$GITHUB_ENV"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
