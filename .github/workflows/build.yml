@@ -15,7 +15,7 @@ on:
 jobs:
   docker-validate:
     timeout-minutes: 10
-    runs-on: ubuntu-26.06
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -37,7 +37,7 @@ jobs:
           - tag: admin
             grav_admin: 'true'
     timeout-minutes: 10
-    runs-on: ubuntu-26.06
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -96,7 +96,7 @@ jobs:
           - tag: admin
             grav_admin: 'true'
     timeout-minutes: 10
-    runs-on: ubuntu-26.06
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
