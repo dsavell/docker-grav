@@ -2,9 +2,13 @@
 
 ![grav](https://getgrav.org/user/pages/media/grav-logo.svg)
 
-Grav is a Fast, Simple, and Flexible file-based Web-platform. There is Zero installation required. Although Grav follows principles similar to other flat-file CMS platforms, it has a different design philosophy than most.
+Grav is a Fast, Simple, and Flexible file-based Web-platform. There is Zero
+installation required. Although Grav follows principles similar to other
+flat-file CMS platforms, it has a different design philosophy than most.
 
-The underlying architecture of Grav is built using well established and best-in-class technologies. This is to ensure that Grav is simple to use and easy to extend. Some of these key technologies include:
+The underlying architecture of Grav is built using well established and
+best-in-class technologies. This is to ensure that Grav is simple to use and
+easy to extend. Some of these key technologies include:
 
 - Twig Templating: for powerful control of the user interface
 - Markdown: for easy content creation
@@ -18,17 +22,19 @@ The underlying architecture of Grav is built using well established and best-in-
 
 ## Supported Architectures
 
-We utilise the docker manifest for multi-platform awareness. More information is available from docker [here](https://github.com/docker/distribution/blob/master/docs/spec/manifest-v2-2.md#manifest-list).
+We utilise the docker manifest for multi-platform awareness. More information
+is available from the Docker
+[manifest list documentation](https://github.com/docker/distribution/blob/master/docs/spec/manifest-v2-2.md#manifest-list).
 
 The `admin` and `core` tags are multi-platform images. Docker automatically selects the matching image for your architecture.
 
 The architectures supported by this image are:
 
-| Architecture | Available | Tag                     |
-| :----------: | :-------: | ----------------------- |
-|    x86-64    |    ✅     | linux/amd64              |
-|    arm64     |    ✅     | linux/arm64              |
-|    armhf     |    ❌     | arm32v7-\<version tag\> |
+| Architecture | Available | Tag                       |
+| :-----------: | :-------: | ------------------------- |
+|    x86-64     |    ✅     | linux/amd64               |
+|     arm64     |    ✅     | linux/arm64               |
+|     armhf     |    ❌     | arm32v7-\<version tag\>   |
 
 ## Version Tags
 
@@ -49,13 +55,15 @@ This image provides various versions that are available via tags.
 
 WebUI can be found at `http://<your-ip>`
 
-More information can be found on the official documentation [here](https://learn.getgrav.org/17/basics/installation#webservers)
+More information can be found in the official
+[installation documentation](https://learn.getgrav.org/17/basics/installation#webservers).
 
 ## Usage
 
 Here are some example snippets to help you get started creating a container.
 
 ### docker-compose
+
 ```yaml
 ---
 services:
@@ -78,7 +86,7 @@ services:
       - 80:80
 ```
 
-### docker cli ([click here for more info](https://docs.docker.com/engine/reference/commandline/cli/))
+### docker cli ([Docker CLI documentation](https://docs.docker.com/engine/reference/commandline/cli/))
 
 ```bash
 docker create \
@@ -100,7 +108,11 @@ docker start grav
 
 ## Parameters
 
-Container images are configured using parameters passed at runtime (such as those above). These parameters are separated by a colon and indicate `<external>:<internal>` respectively. For example, `-p 8080:80` would expose port `80` from inside the container to be accessible from the host's IP on port `8080` outside the container.
+Container images are configured using parameters passed at runtime (such as
+those above). These parameters are separated by a colon and indicate
+`<external>:<internal>` respectively. For example, `-p 8080:80` would expose
+port `80` from inside the container to be accessible from the host's IP on port
+`8080` outside the container.
 
 |               Parameter               | Function                                                         |
 | :-----------------------------------: | ---------------------------------------------------------------- |

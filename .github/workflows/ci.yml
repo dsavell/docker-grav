@@ -153,8 +153,8 @@ jobs:
 
           actionlint
 
-  dockerlint:
-    name: Dockerlint
+  hadolint:
+    name: hadolint
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
