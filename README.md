@@ -58,7 +58,6 @@ Here are some example snippets to help you get started creating a container.
 ### docker-compose
 ```yaml
 ---
-version: '2.1'
 services:
   grav:
     image: dsavell/grav:<TAG>
@@ -87,7 +86,7 @@ docker create \
   --restart unless-stopped \
   -e DUID=1000 \
   -e DGID=1000 \
-  -p 80:80 \
+  -p 8080:80 \
   -e TZ=Europe/London `# optional` \
   -e GRAV_MULTISITE=subdirectory `# optional` \
   -e ROBOTS_DISALLOW=false `# optional` \
@@ -135,6 +134,21 @@ In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as bel
 
 ## Changelog
 
+- **25/10/2026**
+  - BREAKING CHANGES!!!!!
+  - Updated OS from bookworm to trixie
+  - Updated to PHP 8.4 INCLUDES FIX FOR LATEST CVE!!!!
+  - Stripped back to one docker file with ARGS.
+  - Removed confusing logic in init-admin and init-core.
+  - Stripped back nginx configuration and moved to gravs own /etc/nginx/conf.d/grav.conf
+  - Regressed plugin install (FOR NOW)
+  - Regressed robots.txt disallow (FOR NOW)
+  - Regressed multisite (FOR NOW)
+  - Regressed running user back to root (FOR NOW)
+  - Updated pre-commit-config
+  - Pinned all github actions
+  - Updated github actions references to latest.
+  - Updated Renovate bot to include GitHub actions.
 - **03/10/2023:**
   - Removed cumbersome DevOps steps.
   - Updated GitHub workflows with nodejs 20.x
