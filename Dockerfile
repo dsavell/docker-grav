@@ -13,6 +13,8 @@ RUN install_packages \
   vim \
   wget
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 ## Install WebServer and PHP
 RUN install_packages \
   nginx \
