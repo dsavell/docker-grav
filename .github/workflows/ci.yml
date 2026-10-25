@@ -26,15 +26,24 @@ permissions:
   statuses: none
 
 jobs:
-  standards:
-    uses: dsavell/github-workflow-templates/.github/workflows/template-ci-standards.yml@main
-
   build-test:
-    name: Build and Test
+    name: Build Image
     runs-on: ubuntu-26.04
     strategy:
       matrix:
-        platform: [amd64, arm64]
+        include:
+          - platform: amd64
+            variant: core
+            grav_admin: 'false'
+          - platform: arm64
+            variant: core
+            grav_admin: 'false'
+          - platform: amd64
+            variant: admin
+            grav_admin: 'true'
+          - platform: arm64
+            variant: admin
+            grav_admin: 'true'
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -59,6 +68,7 @@ jobs:
           load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: ${{ github.run_id }}:${{ matrix.platform }}
+          tags: grav-ci:${{ github.run_id }}-${{ matrix.variant }}-${{ matrix.platform }}
           build-args: |
             GRAV_VERSION=${{ env.GRAV_VERSION }}
+            GRAV_ADMIN=${{ matrix.grav_admin }}
