@@ -20,14 +20,14 @@ The underlying architecture of Grav is built using well established and best-in-
 
 We utilise the docker manifest for multi-platform awareness. More information is available from docker [here](https://github.com/docker/distribution/blob/master/docs/spec/manifest-v2-2.md#manifest-list).
 
-Simply pulling `dsavell/grav:admin` should retrieve the correct image for your arch, but you can also pull specific arch images via tags.
+The `admin` and `core` tags are multi-platform images. Docker automatically selects the matching image for your architecture.
 
 The architectures supported by this image are:
 
 | Architecture | Available | Tag                     |
 | :----------: | :-------: | ----------------------- |
-|    x86-64    |    ✅     | amd64-\<version tag\>   |
-|    arm64     |    ❌     | arm64v8-\<version tag\> |
+|    x86-64    |    ✅     | linux/amd64              |
+|    arm64     |    ✅     | linux/arm64              |
 |    armhf     |    ❌     | arm32v7-\<version tag\> |
 
 ## Version Tags
