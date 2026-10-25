@@ -1,7 +1,7 @@
 FROM bitnami/minideb:trixie
 
-ARG GRAV_VERSION=2.2.13
-ARG GRAV_ADMIN=true
+ARG GRAV_VERSION
+ARG GRAV_ADMIN
 
 ## Install Packages
 RUN install_packages \
@@ -45,6 +45,8 @@ RUN sed -i 's|^;*error_log = .*|error_log = /dev/stderr|' \
 
 ## Download GRAV
 RUN set -eux; \
+  : "${GRAV_VERSION:?GRAV_VERSION build argument is required}"; \
+  : "${GRAV_ADMIN:?GRAV_ADMIN build argument is required}"; \
   case "${GRAV_ADMIN}" in \
     true) archive="grav-admin-v${GRAV_VERSION}.zip" ;; \
     false) archive="grav-v${GRAV_VERSION}.zip" ;; \

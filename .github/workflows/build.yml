@@ -14,11 +14,8 @@ on:
 
 jobs:
   docker-validate:
-    strategy:
-      matrix:
-        tag: [core, admin]
     timeout-minutes: 10
-    runs-on: ubuntu-26.06-arm
+    runs-on: ubuntu-26.06
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -26,7 +23,7 @@ jobs:
       - name: Run Docker Lint
         uses: hadolint/hadolint-action@06be81baf89a55ffd0e24b8f04a4185738dd3387 # v3.5.0
         with:
-          dockerfile: Dockerfile.grav${{ matrix.tag }}
+          dockerfile: Dockerfile
 
   docker-build-pr:
     if: github.event_name == 'pull_request'
@@ -34,9 +31,13 @@ jobs:
       - docker-validate
     strategy:
       matrix:
-        tag: [core, admin]
+        include:
+          - tag: core
+            grav_admin: 'false'
+          - tag: admin
+            grav_admin: 'true'
     timeout-minutes: 10
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.06
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -75,12 +76,13 @@ jobs:
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
-          file: Dockerfile.grav${{ matrix.tag }}
+          file: Dockerfile
           push: false
           tags: ${{ steps.docker-meta.outputs.tags }}
           labels: ${{ steps.docker-meta.outputs.labels }}
           build-args: |
             GRAV_VERSION=${{ env.GRAV_VERSION }}
+            GRAV_ADMIN=${{ matrix.grav_admin }}
 
   docker-build-main:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -88,9 +90,13 @@ jobs:
       - docker-validate
     strategy:
       matrix:
-        tag: [core, admin]
+        include:
+          - tag: core
+            grav_admin: 'false'
+          - tag: admin
+            grav_admin: 'true'
     timeout-minutes: 10
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.06
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -129,9 +135,10 @@ jobs:
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
-          file: Dockerfile.grav${{ matrix.tag }}
+          file: Dockerfile
           push: true
           tags: ${{ steps.docker-meta.outputs.tags }}
           labels: ${{ steps.docker-meta.outputs.labels }}
           build-args: |
             GRAV_VERSION=${{ env.GRAV_VERSION }}
+            GRAV_ADMIN=${{ matrix.grav_admin }}

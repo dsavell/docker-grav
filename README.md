@@ -130,8 +130,6 @@ In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as bel
 
 ## Issues
 
-- Scheduler mentions cron is not available in the UI, however it works. issue has been raised `https://github.com/getgrav/grav-plugin-admin/issues/1744`
-
 ## Changelog
 
 - **25/10/2026**
