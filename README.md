@@ -76,8 +76,8 @@ services:
       - DGID=1000
       - TZ=Europe/London # optional
     volumes:
-      - /data/containers/grav/backup:/var/www/grav/backup
-      - /data/containers/grav/user:/var/www/grav/user
+      - /data/containers/grav/backup:/var/www/html/backup
+      - /data/containers/grav/user:/var/www/html/user
     ports:
       - 80:80
 ```
@@ -92,8 +92,8 @@ docker create \
   -e DGID=1000 \
   -p 8080:80 \
   -e TZ=Europe/London `# optional` \
-  -v /data/containers/grav/backup:/var/www/grav/backup \
-  -v /data/containers/grav/user:/var/www/grav/user \
+  -v /data/containers/grav/backup:/var/www/html/backup \
+  -v /data/containers/grav/user:/var/www/html/user \
   dsavell/grav:<TAG>
 docker start grav
 ```
@@ -140,6 +140,7 @@ In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as bel
   - Stripped back to one docker file with ARGS.
   - Removed confusing logic in init-admin and init-core.
   - Stripped back nginx configuration and moved to gravs own /etc/nginx/conf.d/grav.conf
+  - Reverted back to just /var/www/html instead of /var/www/grav data should persist if mounting just update to /var/www/html/*
   - Regressed plugin install (FOR NOW)
   - Regressed robots.txt disallow (FOR NOW)
   - Regressed multisite (FOR NOW)
