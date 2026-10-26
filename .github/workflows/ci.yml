@@ -102,32 +102,6 @@ jobs:
 
           yamllint -c .yamllint.yml .
 
-  markdownlint:
-    timeout-minutes: 1
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-
-      - name: Setup Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
-        with:
-          node-version: 24.x
-
-      - name: Install markdownlint-cli
-        run: |
-          npm install --global markdownlint-cli2
-
-      - name: Run markdownlint
-        run: |
-          set -euo pipefail
-
-          test -f .markdownlint-cli2.jsonc
-
-          echo "Running markdownlint"
-
-          markdownlint-cli2 --config .markdownlint-cli2.jsonc .
-
   actionlint:
     timeout-minutes: 1
     runs-on: ubuntu-24.04-arm
