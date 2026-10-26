@@ -2,9 +2,13 @@
 
 ![grav](https://getgrav.org/user/pages/media/grav-logo.svg)
 
-Grav is a Fast, Simple, and Flexible file-based Web-platform. There is Zero installation required. Although Grav follows principles similar to other flat-file CMS platforms, it has a different design philosophy than most.
+Grav is a Fast, Simple, and Flexible file-based Web-platform. There is Zero
+installation required. Although Grav follows principles similar to other
+flat-file CMS platforms, it has a different design philosophy than most.
 
-The underlying architecture of Grav is built using well established and best-in-class technologies. This is to ensure that Grav is simple to use and easy to extend. Some of these key technologies include:
+The underlying architecture of Grav is built using well established and
+best-in-class technologies. This is to ensure that Grav is simple to use and
+easy to extend. Some of these key technologies include:
 
 - Twig Templating: for powerful control of the user interface
 - Markdown: for easy content creation
@@ -18,17 +22,19 @@ The underlying architecture of Grav is built using well established and best-in-
 
 ## Supported Architectures
 
-We utilise the docker manifest for multi-platform awareness. More information is available from docker [here](https://github.com/docker/distribution/blob/master/docs/spec/manifest-v2-2.md#manifest-list).
+We utilise the docker manifest for multi-platform awareness. More information
+is available from the Docker
+[manifest list documentation](https://github.com/docker/distribution/blob/master/docs/spec/manifest-v2-2.md#manifest-list).
 
-Simply pulling `dsavell/grav:admin` should retrieve the correct image for your arch, but you can also pull specific arch images via tags.
+The `admin` and `core` tags are multi-platform images. Docker automatically selects the matching image for your architecture.
 
 The architectures supported by this image are:
 
-| Architecture | Available | Tag                     |
-| :----------: | :-------: | ----------------------- |
-|    x86-64    |    ✅     | amd64-\<version tag\>   |
-|    arm64     |    ❌     | arm64v8-\<version tag\> |
-|    armhf     |    ❌     | arm32v7-\<version tag\> |
+| Architecture | Available | Tag                       |
+| :-----------: | :-------: | ------------------------- |
+|    x86-64     |    ✅     | linux/amd64               |
+|     arm64     |    ✅     | linux/arm64               |
+|     armhf     |    ❌     | arm32v7-\<version tag\>   |
 
 ## Version Tags
 
@@ -49,16 +55,17 @@ This image provides various versions that are available via tags.
 
 WebUI can be found at `http://<your-ip>`
 
-More information can be found on the official documentation [here](https://learn.getgrav.org/17/basics/installation#webservers)
+More information can be found in the official
+[installation documentation](https://learn.getgrav.org/17/basics/installation#webservers).
 
 ## Usage
 
 Here are some example snippets to help you get started creating a container.
 
 ### docker-compose
+
 ```yaml
 ---
-version: '2.1'
 services:
   grav:
     image: dsavell/grav:<TAG>
@@ -68,18 +75,14 @@ services:
       - DUID=1000
       - DGID=1000
       - TZ=Europe/London # optional
-      - GRAV_MULTISITE=subdirectory # optional
-      - ROBOTS_DISALLOW=false # optional
-      - GRAV_PLUGINS=devtools,precache # optional
     volumes:
       - /data/containers/grav/backup:/var/www/grav/backup
-      - /data/containers/grav/logs:/var/www/grav/log
       - /data/containers/grav/user:/var/www/grav/user
     ports:
       - 80:80
 ```
 
-### docker cli ([click here for more info](https://docs.docker.com/engine/reference/commandline/cli/))
+### docker cli ([Docker CLI documentation](https://docs.docker.com/engine/reference/commandline/cli/))
 
 ```bash
 docker create \
@@ -87,13 +90,9 @@ docker create \
   --restart unless-stopped \
   -e DUID=1000 \
   -e DGID=1000 \
-  -p 80:80 \
+  -p 8080:80 \
   -e TZ=Europe/London `# optional` \
-  -e GRAV_MULTISITE=subdirectory `# optional` \
-  -e ROBOTS_DISALLOW=false `# optional` \
-  -e GRAV_PLUGINS=devtools,precache `# optional` \
   -v /data/containers/grav/backup:/var/www/grav/backup \
-  -v /data/containers/grav/logs:/var/www/grav/logs \
   -v /data/containers/grav/user:/var/www/grav/user \
   dsavell/grav:<TAG>
 docker start grav
@@ -101,19 +100,19 @@ docker start grav
 
 ## Parameters
 
-Container images are configured using parameters passed at runtime (such as those above). These parameters are separated by a colon and indicate `<external>:<internal>` respectively. For example, `-p 8080:80` would expose port `80` from inside the container to be accessible from the host's IP on port `8080` outside the container.
+Container images are configured using parameters passed at runtime (such as
+those above). These parameters are separated by a colon and indicate
+`<external>:<internal>` respectively. For example, `-p 8080:80` would expose
+port `80` from inside the container to be accessible from the host's IP on port
+`8080` outside the container.
 
 |               Parameter               | Function                                                         |
 | :-----------------------------------: | ---------------------------------------------------------------- |
 |                `-p 80`                | Http webUI                                                       |
 |            `-e DUID=1000`             | for UserID - see below for explanation                           |
 |            `-e DGID=1000`             | for GroupID - see below for explanation                          |
-| `-e TZ-e GRAV_MULTISITE=subdirectory` | Deploy a Grav multisite (subdirectory) installation.             |
-|      `-e ROBOTS_DISALLOW=false`       | Replace default /robots.txt file with one discouraging indexers. |
 |      `-e TZ=Europe/London`            | Set your timezone                                                |
-|   `-e GRAV_PLUGINS=devtools,precache` | Install extra plugins automaticall (must be comma separated)     |
 |         `-v /var/www/backup`          | Contains your location for Grav backups                          |
-|          `-v /var/www/logs`           | Contains your location for your Grav log files                   |
 |          `-v /var/www/user`           | Contains your Grav content                                       |
 
 ## User / Group Identifiers
@@ -131,10 +130,24 @@ In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as bel
 
 ## Issues
 
-- Scheduler mentions cron is not available in the UI, however it works. issue has been raised `https://github.com/getgrav/grav-plugin-admin/issues/1744`
-
 ## Changelog
 
+- **25/10/2026**
+  - BREAKING CHANGES!!!!!
+  - Updated OS from bookworm to trixie
+  - Updated to PHP 8.4 INCLUDES FIX FOR LATEST CVE!!!!
+  - Include ARM image
+  - Stripped back to one docker file with ARGS.
+  - Removed confusing logic in init-admin and init-core.
+  - Stripped back nginx configuration and moved to gravs own /etc/nginx/conf.d/grav.conf
+  - Regressed plugin install (FOR NOW)
+  - Regressed robots.txt disallow (FOR NOW)
+  - Regressed multisite (FOR NOW)
+  - Regressed running user back to root (FOR NOW)
+  - Updated pre-commit-config
+  - Pinned all github actions
+  - Updated github actions references to latest.
+  - Updated Renovate bot to include GitHub actions.
 - **03/10/2023:**
   - Removed cumbersome DevOps steps.
   - Updated GitHub workflows with nodejs 20.x

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+service cron start
+service php8.4-fpm start
+exec nginx -g 'daemon off;'
