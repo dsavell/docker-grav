@@ -8,8 +8,11 @@ RUN install_packages \
   ca-certificates \
   cron \
   curl \
+  git \
   nano \
+  passwd \
   unzip \
+  util-linux \
   vim \
   wget
 

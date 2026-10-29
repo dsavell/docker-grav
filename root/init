@@ -2,6 +2,69 @@
 
 set -e
 
+current_uid="$(id -u www-data)"
+current_gid="$(id -g www-data)"
+DUID="${DUID:-$current_uid}"
+DGID="${DGID:-$current_gid}"
+
+validate_id() {
+  local variable_name="$1"
+  local value="$2"
+
+  if [[ ! "$value" =~ ^[0-9]+$ ]] || (( ${#value} > 10 )); then
+    printf 'Error: %s must be an integer between 1 and 2147483647\n' \
+      "$variable_name" >&2
+    exit 1
+  fi
+
+  value=$((10#$value))
+  if (( value == 0 || value > 2147483647 )); then
+    printf 'Error: %s must be an integer between 1 and 2147483647\n' \
+      "$variable_name" >&2
+    exit 1
+  fi
+
+  printf '%s' "$value"
+}
+
+DUID="$(validate_id DUID "$DUID")"
+DGID="$(validate_id DGID "$DGID")"
+
+if [[ "$DUID" != "$current_uid" ]]; then
+  uid_owner="$(awk -F: -v uid="$DUID" '$3 == uid { print $1; exit }' /etc/passwd)"
+  if [[ -n "$uid_owner" && "$uid_owner" != www-data ]]; then
+    printf 'Error: DUID %s is already assigned to %s\n' \
+      "$DUID" "$uid_owner" >&2
+    exit 1
+  fi
+fi
+
+if [[ "$DGID" != "$current_gid" ]]; then
+  gid_owner="$(awk -F: -v gid="$DGID" '$3 == gid { print $1; exit }' /etc/group)"
+  if [[ -n "$gid_owner" && "$gid_owner" != www-data ]]; then
+    printf 'Error: DGID %s is already assigned to %s\n' \
+      "$DGID" "$gid_owner" >&2
+    exit 1
+  fi
+fi
+
+if [[ "$DGID" != "$current_gid" ]]; then
+  groupmod --gid "$DGID" www-data
+fi
+if [[ "$DUID" != "$current_uid" ]]; then
+  # Keep usermod from recursively changing ownership under /var/www.
+  usermod --home /nonexistent www-data
+fi
+usermod --uid "$DUID" --gid www-data www-data
+
+for directory in cache logs tmp backup images assets user; do
+  path="/var/www/html/$directory"
+  if ! mountpoint -q "$path" \
+    && [[ "$(stat -c '%u:%g' "$path")" != "$DUID:$DGID" ]]; then
+    chown -R www-data:www-data "$path"
+  fi
+done
+
 service cron start
 service php8.4-fpm start
 exec nginx -g 'daemon off;'
