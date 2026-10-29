@@ -187,8 +187,8 @@ jobs:
           file: ./Dockerfile
           platforms: linux/${{ matrix.platform }}
           load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=grav-${{ matrix.variant }}-${{ matrix.platform }}-ci
+          cache-to: type=gha,scope=grav-${{ matrix.variant }}-${{ matrix.platform }}-ci,mode=max
           tags: |
             dsavell/grav:${{ matrix.variant }}
             dsavell/grav:${{ matrix.variant }}-${{ env.GRAV_VERSION }}
