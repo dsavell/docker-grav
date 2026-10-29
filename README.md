@@ -36,6 +36,21 @@ The architectures supported by this image are:
 |     arm64     |    ✅     | linux/arm64               |
 |     armhf     |    ❌     | arm32v7-\<version tag\>   |
 
+## Container Registries
+
+Images are published to both [Docker Hub](https://hub.docker.com/r/dsavell/grav)
+and [GitHub Container Registry](https://github.com/dsavell/docker-grav/pkgs/container/docker-grav)
+with the same tags. Pull the admin image with Docker or Podman:
+
+```bash
+docker pull ghcr.io/dsavell/docker-grav:admin
+# or
+podman pull ghcr.io/dsavell/docker-grav:admin
+```
+
+Use the `core` tag for Grav without the Admin plugin. Versioned and dated tags
+are also available in both registries; see the tag table below.
+
 ## Version Tags
 
 This image provides various versions that are available via tags.

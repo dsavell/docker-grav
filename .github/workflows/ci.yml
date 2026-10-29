@@ -3,6 +3,8 @@ name: CI
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 23 * * 0'
   push:
     branches:
       - main
@@ -185,8 +187,8 @@ jobs:
           file: ./Dockerfile
           platforms: linux/${{ matrix.platform }}
           load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=grav-${{ matrix.variant }}-${{ matrix.platform }}-ci
+          cache-to: type=gha,scope=grav-${{ matrix.variant }}-${{ matrix.platform }}-ci,mode=max
           tags: |
             dsavell/grav:${{ matrix.variant }}
             dsavell/grav:${{ matrix.variant }}-${{ env.GRAV_VERSION }}
@@ -195,6 +197,38 @@ jobs:
           build-args: |
             GRAV_VERSION=${{ env.GRAV_VERSION }}
             GRAV_ADMIN=${{ matrix.grav_admin }}
+
+      - name: Smoke test container
+        env:
+          IMAGE_VARIANT: ${{ matrix.variant }}
+        run: |
+          set -euo pipefail
+          trap 'docker rm --force grav-smoke >/dev/null 2>&1 || true' EXIT
+
+          docker run --detach \
+            --name grav-smoke \
+            --publish 127.0.0.1:8080:80 \
+            "dsavell/grav:$IMAGE_VARIANT"
+
+          if [[ "$IMAGE_VARIANT" == "admin" ]]; then
+            health_url="http://127.0.0.1:8080/admin/"
+          else
+            health_url="http://127.0.0.1:8080/"
+          fi
+
+          for attempt in {1..30}; do
+            if http_status="$(curl --silent --show-error --output /dev/null \
+              --write-out '%{http_code}' --max-time 5 "$health_url")" \
+              && [[ "$http_status" =~ ^[23][0-9]{2}$ ]]; then
+              echo "Grav responded with HTTP $http_status at $health_url"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          docker logs grav-smoke
+          echo "Grav did not become ready after $attempt attempts (60 seconds)" >&2
+          exit 1
 
   trigger-release:
     name: Trigger Release
