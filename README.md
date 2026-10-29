@@ -176,6 +176,7 @@ account or group in the container.
   - Regressed robots.txt disallow (FOR NOW)
   - Regressed multisite (FOR NOW)
   - Regressed running user back to root (FOR NOW)
+  - Fixed scheduler crontab ownership when using DUID
   - Updated pre-commit-config
   - Pinned all github actions
   - Updated github actions references to latest.
