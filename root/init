@@ -56,6 +56,7 @@ if [[ "$DUID" != "$current_uid" ]]; then
   usermod --home /nonexistent www-data
 fi
 usermod --uid "$DUID" --gid www-data www-data
+chown www-data:crontab /var/spool/cron/crontabs/www-data
 
 for directory in cache logs tmp backup images assets user; do
   path="/var/www/html/$directory"
