@@ -61,6 +61,8 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
+          cache-from: type=gha,scope=grav-${{ matrix.variant }}-release
+          cache-to: type=gha,scope=grav-${{ matrix.variant }}-release,mode=max
           tags: |
             dsavell/grav:${{ matrix.variant }}
             dsavell/grav:${{ matrix.variant }}-${{ env.GRAV_VERSION }}

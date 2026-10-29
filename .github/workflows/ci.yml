@@ -196,6 +196,35 @@ jobs:
             GRAV_VERSION=${{ env.GRAV_VERSION }}
             GRAV_ADMIN=${{ matrix.grav_admin }}
 
+      - name: Smoke test container
+        run: |
+          set -euo pipefail
+          trap 'docker rm --force grav-smoke >/dev/null 2>&1 || true' EXIT
+
+          docker run --detach \
+            --name grav-smoke \
+            --publish 127.0.0.1:8080:80 \
+            "dsavell/grav:${{ matrix.variant }}"
+
+          if [[ "${{ matrix.variant }}" == "admin" ]]; then
+            health_url="http://127.0.0.1:8080/admin/"
+          else
+            health_url="http://127.0.0.1:8080/"
+          fi
+
+          for attempt in {1..30}; do
+            if curl --fail --silent --output /dev/null \
+              --location "$health_url"; then
+              echo "Grav responded successfully at $health_url"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          docker logs grav-smoke
+          echo "Grav did not become ready within 60 seconds" >&2
+          exit 1
+
   trigger-release:
     name: Trigger Release
     needs: build-test
