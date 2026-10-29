@@ -98,6 +98,31 @@ docker create \
 docker start grav
 ```
 
+### Podman rootless
+
+`DUID` and `DGID` change the IDs assigned to `www-data` inside the container.
+They do not change Podman's user-namespace mapping. For rootless Podman, map
+your host user to the container's default `www-data` IDs (`33:33`) with
+`keep-id`, and leave `DUID` and `DGID` unset:
+
+```bash
+podman create \
+  --name=grav \
+  --restart unless-stopped \
+  --userns=keep-id:uid=33,gid=33 \
+  --user=root \
+  -p 8080:80 \
+  -v /data/containers/grav/backup:/var/www/html/backup \
+  -v /data/containers/grav/user:/var/www/html/user \
+  dsavell/grav:admin
+podman start grav
+```
+
+`--user=root` keeps the startup process able to configure and launch services;
+nginx and PHP-FPM workers still run as `www-data`. If you change the
+`www-data` IDs with `DUID` or `DGID`, update the `uid` or `gid` in
+`--userns=keep-id` to match.
+
 ## Parameters
 
 Container images are configured using parameters passed at runtime (such as
@@ -109,24 +134,30 @@ port `80` from inside the container to be accessible from the host's IP on port
 |               Parameter               | Function                                                         |
 | :-----------------------------------: | ---------------------------------------------------------------- |
 |                `-p 80`                | Http webUI                                                       |
-|            `-e DUID=1000`             | for UserID - see below for explanation                           |
-|            `-e DGID=1000`             | for GroupID - see below for explanation                          |
+|            `-e DUID=1000`             | User ID used by nginx/PHP-FPM workers and Grav's scheduled task  |
+|            `-e DGID=1000`             | Group ID used by nginx/PHP-FPM workers and Grav's scheduled task |
 |      `-e TZ=Europe/London`            | Set your timezone                                                |
-|         `-v /var/www/backup`          | Contains your location for Grav backups                          |
-|          `-v /var/www/user`           | Contains your Grav content                                       |
+| `-v /host/path:/var/www/html/backup`  | Persistent location for Grav backups                             |
+|  `-v /host/path:/var/www/html/user`   | Persistent location for Grav content and configuration           |
 
 ## User / Group Identifiers
 
-When using volumes (`-v` flags) permissions issues can arise between the host OS and the container, we avoid this issue by allowing you to specify the user `PUID` and group `PGID`.
+The container uses `DUID` and `DGID` to set the IDs for the `www-data`
+account. Nginx and PHP-FPM workers, along with Grav's scheduled task, run as
+that account. The startup process remains root so it can configure the account
+and start the services.
 
-Ensure any volume directories on the host are owned by the same user you specify and any permissions issues will vanish like magic.
-
-In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as below:
+When using bind mounts, make sure the host directories are accessible to the
+configured IDs. For example, to use your current user's IDs:
 
 ```bash
-  $ id username
-    uid=1000(dockeruser) gid=1000(dockergroup) groups=1000(dockergroup)
+id -u username
+id -g username
 ```
+
+If either variable is omitted, the image's default `www-data` ID is retained.
+IDs must be between 1 and 2147483647 and must not already belong to another
+account or group in the container.
 
 ## Issues
 
