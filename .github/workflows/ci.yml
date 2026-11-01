@@ -208,6 +208,7 @@ jobs:
           output-format: table
           severity-cutoff: high
           only-fixed: true
+          config: .grype.yaml
 
       - name: Smoke test container
         env:
