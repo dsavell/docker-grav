@@ -260,6 +260,75 @@ jobs:
             exit 1
           fi
 
+      - name: Smoke test Grav plugin update cron
+        run: |
+          set -euo pipefail
+          trap 'docker rm --force grav-plugin-cron-smoke >/dev/null 2>&1 || true' EXIT
+
+          docker run --detach \
+            --name grav-plugin-cron-smoke \
+            --env 'GRAV_PLUGIN_UPDATE_CRON=15 4 * * 1' \
+            "dsavell/grav:${{ matrix.variant }}"
+
+          cron_entry='15 4 * * 1 cd /var/www/html && /usr/bin/php8.4 bin/gpm update --plugins --all-yes >> /var/www/html/logs/plugin-updates.log 2>&1'
+          cron_configured=false
+          for attempt in {1..30}; do
+            if docker exec grav-plugin-cron-smoke crontab -u www-data -l \
+              | grep --fixed-strings --line-regexp --quiet "$cron_entry"; then
+              cron_configured=true
+              break
+            fi
+            sleep 1
+          done
+
+          if [[ "$cron_configured" != true ]]; then
+            docker logs grav-plugin-cron-smoke
+            echo "Grav plugin update cron was not configured after $attempt attempts" >&2
+            exit 1
+          fi
+
+      - name: Smoke test Grav plugin update on startup
+        env:
+          IMAGE_VARIANT: ${{ matrix.variant }}
+        run: |
+          set -euo pipefail
+          trap 'docker rm --force grav-plugin-startup-smoke >/dev/null 2>&1 || true' EXIT
+
+          docker run --detach \
+            --name grav-plugin-startup-smoke \
+            --env GRAV_PLUGIN_UPDATE_ON_STARTUP=true \
+            --publish 127.0.0.1:8082:80 \
+            "dsavell/grav:$IMAGE_VARIANT"
+
+          if [[ "$IMAGE_VARIANT" == "admin" ]]; then
+            health_url="http://127.0.0.1:8082/admin/"
+          else
+            health_url="http://127.0.0.1:8082/"
+          fi
+
+          for attempt in {1..60}; do
+            if http_status="$(curl --silent --fail --output /dev/null \
+              --write-out '%{http_code}' --max-time 5 "$health_url")" \
+              && [[ "$http_status" =~ ^[23][0-9]{2}$ ]]; then
+              break
+            fi
+            sleep 2
+          done
+
+          if [[ ! "${http_status:-}" =~ ^[23][0-9]{2}$ ]]; then
+            docker logs grav-plugin-startup-smoke
+            echo "Grav did not become ready after $attempt attempts with startup plugin updates enabled" >&2
+            exit 1
+          fi
+
+          startup_logs="$(docker logs grav-plugin-startup-smoke 2>&1)"
+          if ! grep --fixed-strings --quiet \
+            'Updating Grav plugins on startup' <<< "$startup_logs"; then
+            printf '%s\n' "$startup_logs"
+            echo "Startup plugin update did not run" >&2
+            exit 1
+          fi
+
       - name: Smoke test robots disallow
         run: |
           set -euo pipefail
