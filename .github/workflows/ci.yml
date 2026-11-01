@@ -232,6 +232,34 @@ jobs:
           echo "Grav did not become ready after $attempt attempts (60 seconds)" >&2
           exit 1
 
+      - name: Smoke test Nginx body size override
+        run: |
+          set -euo pipefail
+          trap 'docker rm --force grav-nginx-config-smoke >/dev/null 2>&1 || true' EXIT
+
+          docker run --detach \
+            --name grav-nginx-config-smoke \
+            --env NGINX_CLIENT_MAX_BODY_SIZE=64m \
+            "dsavell/grav:${{ matrix.variant }}"
+
+          docker exec grav-nginx-config-smoke nginx -t
+
+          config_applied=false
+          for attempt in {1..30}; do
+            if docker exec grav-nginx-config-smoke nginx -T 2>&1 \
+              | grep --fixed-strings --quiet 'client_max_body_size 64m;'; then
+              config_applied=true
+              break
+            fi
+            sleep 1
+          done
+
+          if [[ "$config_applied" != true ]]; then
+            docker logs grav-nginx-config-smoke
+            echo "Nginx did not apply NGINX_CLIENT_MAX_BODY_SIZE=64m after $attempt attempts" >&2
+            exit 1
+          fi
+
       - name: Smoke test robots disallow
         run: |
           set -euo pipefail

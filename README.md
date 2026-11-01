@@ -180,10 +180,14 @@ port `80` from inside the container to be accessible from the host's IP on port
 |                `-p 80`                | Http webUI                                                       |
 |            `-e DUID=1000`             | User ID used by nginx/PHP-FPM workers and Grav's scheduled task  |
 |            `-e DGID=1000`             | Group ID used by nginx/PHP-FPM workers and Grav's scheduled task |
+| `-e NGINX_CLIENT_MAX_BODY_SIZE=64m`   | Maximum request body size (default: `1m`)                        |
 |     `-e ROBOTS_DISALLOW=true`         | Serve a robots.txt asking crawlers not to crawl the site         |
 |      `-e TZ=Europe/London`            | Set your timezone                                                |
 | `-v /host/path:/var/www/html/backup`  | Persistent location for Grav backups                             |
 |  `-v /host/path:/var/www/html/user`   | Persistent location for Grav content and configuration           |
+
+`NGINX_CLIENT_MAX_BODY_SIZE` accepts a size in bytes, optionally suffixed with
+`k` or `m` (for example, `64m`). Set it to `0` to disable the limit.
 
 ## User / Group Identifiers
 
@@ -208,6 +212,12 @@ account or group in the container.
 
 ## Changelog
 
+- **01/11/2026:**
+  - Added `ROBOTS_DISALLOW=true` to serve a bundled robots.txt that disallows all crawlers, with support for custom robots.txt bind mounts.
+  - Added `NGINX_CLIENT_MAX_BODY_SIZE` to configure the Nginx request body limit.
+  - Added a CI smoke test for the disallow-all robots.txt response.
+  - Disabled PHP session upload progress.
+  - Added Docker Hub pull examples.
 - **25/10/2026**
   - BREAKING CHANGES!!!!!
   - Updated OS from bookworm to trixie

@@ -2,6 +2,16 @@
 
 set -e
 
+NGINX_CLIENT_MAX_BODY_SIZE="${NGINX_CLIENT_MAX_BODY_SIZE:-1m}"
+if [[ ! "$NGINX_CLIENT_MAX_BODY_SIZE" =~ ^(0|[0-9]+[kKmM]?)$ ]]; then
+  printf 'Error: NGINX_CLIENT_MAX_BODY_SIZE must be a number of bytes, optionally followed by k or m\n' >&2
+  exit 1
+fi
+
+sed "s/__NGINX_CLIENT_MAX_BODY_SIZE__/${NGINX_CLIENT_MAX_BODY_SIZE}/" \
+  /etc/nginx/conf.d/grav.conf.template \
+  > /etc/nginx/conf.d/grav.conf
+
 ROBOTS_DISALLOW="${ROBOTS_DISALLOW:-false}"
 case "${ROBOTS_DISALLOW,,}" in
   true)
@@ -83,6 +93,7 @@ for directory in cache logs tmp backup images assets user; do
   fi
 done
 
+nginx -t
 service cron start
 service php8.4-fpm start
 exec nginx -g 'daemon off;'
