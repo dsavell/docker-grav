@@ -205,6 +205,7 @@ jobs:
         with:
           image: dsavell/grav:${{ matrix.variant }}
           fail-build: true
+          output-format: table
           severity-cutoff: high
           only-fixed: true
 
