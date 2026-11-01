@@ -257,7 +257,7 @@ jobs:
 
           if [[ "$robots_ready" != true ]]; then
             docker logs grav-robots-smoke
-            echo "robots.txt did not become available after 60 seconds" >&2
+            echo "robots.txt did not become available after $attempt attempts (60 seconds)" >&2
             exit 1
           fi
 
