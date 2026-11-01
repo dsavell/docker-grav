@@ -1,13 +1,22 @@
+---
 ignore:
   - vulnerability: GHSA-5mv2-rx3q-4w2v
     package:
       name: twig/twig
-    reason: "Grav's getgrav/Twig fork includes the upstream sandbox sort-filter fix: https://github.com/twigphp/Twig/security/advisories/GHSA-5mv2-rx3q-4w2v"
+    reason: >-
+      Grav's getgrav/Twig fork includes the upstream sandbox sort-filter fix:
+      https://github.com/twigphp/Twig/security/advisories/GHSA-5mv2-rx3q-4w2v
   - vulnerability: GHSA-52m2-vc4m-jj33
     package:
       name: twig/twig
-    reason: "Grav's getgrav/Twig fork includes the upstream filesystem-loader path validation fix: https://github.com/twigphp/Twig/security/advisories/GHSA-52m2-vc4m-jj33"
+    reason: >-
+      Grav's getgrav/Twig fork includes the upstream filesystem-loader path
+      validation fix:
+      https://github.com/twigphp/Twig/security/advisories/GHSA-52m2-vc4m-jj33
   - vulnerability: GHSA-7p85-w9px-jpjp
     package:
       name: twig/twig
-    reason: "Grav's getgrav/Twig fork includes the upstream compiler single-quote escaping fix: https://github.com/twigphp/Twig/security/advisories/GHSA-7p85-w9px-jpjp"
+    reason: >-
+      Grav's getgrav/Twig fork includes the upstream compiler single-quote
+      escaping fix:
+      https://github.com/twigphp/Twig/security/advisories/GHSA-7p85-w9px-jpjp
