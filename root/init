@@ -2,6 +2,23 @@
 
 set -e
 
+ROBOTS_DISALLOW="${ROBOTS_DISALLOW:-false}"
+case "${ROBOTS_DISALLOW,,}" in
+  true)
+    if mountpoint -q /var/www/html/robots.txt; then
+      echo "Using mounted custom robots.txt; ignoring ROBOTS_DISALLOW=true"
+    else
+      install -m 0644 /extras/robots-disallow.txt /var/www/html/robots.txt
+    fi
+    ;;
+  false)
+    ;;
+  *)
+    printf 'Error: ROBOTS_DISALLOW must be true or false\n' >&2
+    exit 1
+    ;;
+esac
+
 current_uid="$(id -u www-data)"
 current_gid="$(id -g www-data)"
 DUID="${DUID:-$current_uid}"

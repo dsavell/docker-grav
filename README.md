@@ -43,13 +43,19 @@ and [GitHub Container Registry](https://github.com/dsavell/docker-grav/pkgs/cont
 with the same tags. Pull the admin image with Docker or Podman:
 
 ```bash
+# GitHub Container Registry
 docker pull ghcr.io/dsavell/docker-grav:admin
 # or
 podman pull ghcr.io/dsavell/docker-grav:admin
+# Docker Hub
+docker pull dsavell/grav:admin
+# or
+podman pull dsavell/grav:admin
 ```
 
 Use the `core` tag for Grav without the Admin plugin. Versioned and dated tags
-are also available in both registries; see the tag table below.
+are also available in both registries; see the tag table below. CI builds and
+smoke-tests the images before triggering the release workflow.
 
 ## Version Tags
 
@@ -138,6 +144,29 @@ nginx and PHP-FPM workers still run as `www-data`. If you change the
 `www-data` IDs with `DUID` or `DGID`, update the `uid` or `gid` in
 `--userns=keep-id` to match.
 
+## Custom `robots.txt`
+
+Set `ROBOTS_DISALLOW=true` to serve a bundled `robots.txt` that asks all
+crawlers not to crawl the site:
+
+```yaml
+environment:
+  ROBOTS_DISALLOW: "true"
+```
+
+By default, `ROBOTS_DISALLOW` is `false` and Grav's own `robots.txt` is used.
+You can instead provide your own file by bind mounting it at
+`/var/www/html/robots.txt`:
+
+```yaml
+volumes:
+  - /data/containers/grav/robots.txt:/var/www/html/robots.txt:ro
+```
+
+The custom mounted file takes precedence over `ROBOTS_DISALLOW=true` and is
+served at `/robots.txt`. This setting only gives crawlers a request; it does not
+restrict access to the site.
+
 ## Parameters
 
 Container images are configured using parameters passed at runtime (such as
@@ -151,6 +180,7 @@ port `80` from inside the container to be accessible from the host's IP on port
 |                `-p 80`                | Http webUI                                                       |
 |            `-e DUID=1000`             | User ID used by nginx/PHP-FPM workers and Grav's scheduled task  |
 |            `-e DGID=1000`             | Group ID used by nginx/PHP-FPM workers and Grav's scheduled task |
+|     `-e ROBOTS_DISALLOW=true`         | Serve a robots.txt asking crawlers not to crawl the site         |
 |      `-e TZ=Europe/London`            | Set your timezone                                                |
 | `-v /host/path:/var/www/html/backup`  | Persistent location for Grav backups                             |
 |  `-v /host/path:/var/www/html/user`   | Persistent location for Grav content and configuration           |

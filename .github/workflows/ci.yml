@@ -144,6 +144,8 @@ jobs:
   build-test:
     name: Build Image
     runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
     strategy:
       matrix:
         include:
@@ -229,6 +231,43 @@ jobs:
           docker logs grav-smoke
           echo "Grav did not become ready after $attempt attempts (60 seconds)" >&2
           exit 1
+
+      - name: Smoke test robots disallow
+        run: |
+          set -euo pipefail
+          robots_file="$(mktemp)"
+          trap 'docker rm --force grav-robots-smoke >/dev/null 2>&1 || true; rm -f "$robots_file"' EXIT
+
+          docker run --detach \
+            --name grav-robots-smoke \
+            --env ROBOTS_DISALLOW=true \
+            --publish 127.0.0.1:8081:80 \
+            "dsavell/grav:${{ matrix.variant }}"
+
+          robots_url="http://127.0.0.1:8081/robots.txt"
+          robots_ready=false
+          for attempt in {1..30}; do
+            if curl --silent --fail --max-time 5 \
+              --output "$robots_file" "$robots_url"; then
+              robots_ready=true
+              break
+            fi
+            sleep 2
+          done
+
+          if [[ "$robots_ready" != true ]]; then
+            docker logs grav-robots-smoke
+            echo "robots.txt did not become available after $attempt attempts (60 seconds)" >&2
+            exit 1
+          fi
+
+          echo "robots.txt response:"
+          cat "$robots_file"
+
+          if ! grep --fixed-strings --line-regexp --quiet 'Disallow: /' "$robots_file"; then
+            echo "robots.txt does not contain the expected 'Disallow: /' rule" >&2
+            exit 1
+          fi
 
   trigger-release:
     name: Trigger Release
