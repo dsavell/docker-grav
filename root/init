@@ -29,6 +29,106 @@ case "${ROBOTS_DISALLOW,,}" in
     ;;
 esac
 
+GRAV_PLUGIN_UPDATE_ON_STARTUP="${GRAV_PLUGIN_UPDATE_ON_STARTUP:-false}"
+validate_boolean() {
+  local variable_name="$1"
+  local variable_value="$2"
+
+  case "${variable_value,,}" in
+    true|false)
+      printf '%s' "${variable_value,,}"
+      ;;
+    *)
+      printf 'Error: %s must be true or false\n' "$variable_name" >&2
+      exit 1
+      ;;
+  esac
+}
+
+GRAV_PLUGIN_UPDATE_ON_STARTUP="$(validate_boolean \
+  GRAV_PLUGIN_UPDATE_ON_STARTUP "$GRAV_PLUGIN_UPDATE_ON_STARTUP")"
+
+validate_cron_number() {
+  local value="$1"
+  local minimum="$2"
+  local maximum="$3"
+  local number
+
+  [[ "$value" =~ ^[0-9]{1,2}$ ]] || return 1
+  number=$((10#$value))
+  (( number >= minimum && number <= maximum ))
+}
+
+validate_cron_field() {
+  local field="$1"
+  local minimum="$2"
+  local maximum="$3"
+  local item base step start end
+  local -a items
+
+  [[ "$field" != ,* && "$field" != *, && "$field" != *,,* ]] || return 1
+  IFS=, read -r -a items <<< "$field"
+
+  for item in "${items[@]}"; do
+    if [[ "$item" == */* ]]; then
+      base="${item%%/*}"
+      step="${item#*/}"
+      validate_cron_number "$step" 1 "$maximum" || return 1
+      [[ "$base" != */* ]] || return 1
+    else
+      base="$item"
+    fi
+
+    if [[ "$base" == '*' ]]; then
+      continue
+    elif [[ "$base" =~ ^([0-9]{1,2})-([0-9]{1,2})$ ]]; then
+      start="${BASH_REMATCH[1]}"
+      end="${BASH_REMATCH[2]}"
+      validate_cron_number "$start" "$minimum" "$maximum" || return 1
+      validate_cron_number "$end" "$minimum" "$maximum" || return 1
+      (( 10#$start <= 10#$end )) || return 1
+    else
+      validate_cron_number "$base" "$minimum" "$maximum" || return 1
+    fi
+  done
+}
+
+validate_cron_schedule() {
+  local schedule="$1"
+  local index
+  local -a fields minimums=(0 0 1 1 0) maximums=(59 23 31 12 7)
+
+  if [[ -z "$schedule" ]]; then
+    printf ''
+    return
+  fi
+
+  if [[ "$schedule" == *$'\n'* || "$schedule" == *$'\r'* ]]; then
+    printf 'Error: GRAV_PLUGIN_UPDATE_CRON must be a single five-field cron expression\n' >&2
+    return 1
+  fi
+
+  read -r -a fields <<< "$schedule"
+  if (( ${#fields[@]} != 5 )); then
+    printf 'Error: GRAV_PLUGIN_UPDATE_CRON must contain five cron fields\n' >&2
+    return 1
+  fi
+
+  for index in "${!fields[@]}"; do
+    if ! validate_cron_field \
+      "${fields[$index]}" "${minimums[$index]}" "${maximums[$index]}"; then
+      printf 'Error: invalid field %s in GRAV_PLUGIN_UPDATE_CRON\n' \
+        "$((index + 1))" >&2
+      return 1
+    fi
+  done
+
+  printf '%s' "${fields[*]}"
+}
+
+GRAV_PLUGIN_UPDATE_CRON="$(validate_cron_schedule \
+  "${GRAV_PLUGIN_UPDATE_CRON:-}")"
+
 current_uid="$(id -u www-data)"
 current_gid="$(id -g www-data)"
 DUID="${DUID:-$current_uid}"
@@ -92,6 +192,20 @@ for directory in cache logs tmp backup images assets user; do
     chown -R www-data:www-data "$path"
   fi
 done
+
+if [[ "$GRAV_PLUGIN_UPDATE_ON_STARTUP" == true ]]; then
+  echo "Updating Grav plugins on startup"
+  runuser -u www-data -- /bin/bash -c \
+    'cd /var/www/html && /usr/bin/php8.4 bin/gpm update --plugins --all-yes'
+fi
+
+if [[ -n "$GRAV_PLUGIN_UPDATE_CRON" ]]; then
+  {
+    crontab -u www-data -l
+    printf '%s %s\n' "$GRAV_PLUGIN_UPDATE_CRON" \
+      'cd /var/www/html && /usr/bin/php8.4 bin/gpm update --plugins --all-yes >> /var/www/html/logs/plugin-updates.log 2>&1'
+  } | crontab -u www-data -
+fi
 
 nginx -t
 service cron start

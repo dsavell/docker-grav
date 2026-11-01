@@ -167,6 +167,27 @@ The custom mounted file takes precedence over `ROBOTS_DISALLOW=true` and is
 served at `/robots.txt`. This setting only gives crawlers a request; it does not
 restrict access to the site.
 
+## Automatic Grav plugin updates
+
+Plugin updates are opt-in. Set `GRAV_PLUGIN_UPDATE_ON_STARTUP=true` to update
+installed plugins each time the container starts, or set
+`GRAV_PLUGIN_UPDATE_CRON` to a five-field cron schedule to update them
+periodically. You can enable either option or both. These settings update
+plugins only; they do not update Grav core or themes.
+
+For example, to update plugins at startup and every day at 03:00:
+
+```yaml
+environment:
+  GRAV_PLUGIN_UPDATE_ON_STARTUP: "true"
+  GRAV_PLUGIN_UPDATE_CRON: "0 3 * * *"
+```
+
+The cron setting accepts numeric cron fields with wildcards, lists, ranges,
+and steps. Scheduled update output is appended to
+`/var/www/html/logs/plugin-updates.log`. If an enabled startup update fails,
+container startup fails; scheduled update errors are recorded in that log.
+
 ## Parameters
 
 Container images are configured using parameters passed at runtime (such as
@@ -182,6 +203,8 @@ port `80` from inside the container to be accessible from the host's IP on port
 |            `-e DGID=1000`             | Group ID used by nginx/PHP-FPM workers and Grav's scheduled task |
 | `-e NGINX_CLIENT_MAX_BODY_SIZE=64m`   | Maximum request body size (default: `1m`)                        |
 |     `-e ROBOTS_DISALLOW=true`         | Serve a robots.txt asking crawlers not to crawl the site         |
+| `-e GRAV_PLUGIN_UPDATE_ON_STARTUP=true` | Update installed Grav plugins at startup                         |
+| `-e GRAV_PLUGIN_UPDATE_CRON="0 3 * * *"` | Cron schedule for installed Grav plugin updates                  |
 |      `-e TZ=Europe/London`            | Set your timezone                                                |
 | `-v /host/path:/var/www/html/backup`  | Persistent location for Grav backups                             |
 |  `-v /host/path:/var/www/html/user`   | Persistent location for Grav content and configuration           |
@@ -214,6 +237,7 @@ account or group in the container.
 
 - **01/11/2026:**
   - Added `ROBOTS_DISALLOW=true` to serve a bundled robots.txt that disallows all crawlers, with support for custom robots.txt bind mounts.
+  - Added opt-in Grav plugin updates at startup or on a cron schedule.
   - Added `NGINX_CLIENT_MAX_BODY_SIZE` to configure the Nginx request body limit.
   - Added a CI smoke test for the disallow-all robots.txt response.
   - Disabled PHP session upload progress.
