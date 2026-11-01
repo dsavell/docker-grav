@@ -247,7 +247,7 @@ jobs:
           robots_url="http://127.0.0.1:8081/robots.txt"
           robots_ready=false
           for attempt in {1..30}; do
-            if curl --silent --show-error --fail --max-time 5 \
+            if curl --silent --fail --max-time 5 \
               --output "$robots_file" "$robots_url"; then
               robots_ready=true
               break
@@ -261,8 +261,10 @@ jobs:
             exit 1
           fi
 
+          echo "robots.txt response:"
+          cat "$robots_file"
+
           if ! grep --fixed-strings --line-regexp --quiet 'Disallow: /' "$robots_file"; then
-            cat "$robots_file"
             echo "robots.txt does not contain the expected 'Disallow: /' rule" >&2
             exit 1
           fi
