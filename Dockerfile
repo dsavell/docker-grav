@@ -44,6 +44,7 @@ RUN rm -f /etc/nginx/sites-enabled/default \
       /etc/php/8.4/fpm/pool.d/www.conf \
   && printf '%s\n' \
       'php_admin_flag[log_errors] = on' \
+      'php_admin_flag[session.upload_progress.enabled] = off' \
       'php_admin_value[error_log] = /dev/stderr' \
       >> /etc/php/8.4/fpm/pool.d/www.conf
 
