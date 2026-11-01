@@ -1,6 +1,7 @@
 server {
     listen 80 default_server;
     server_name _;
+    client_max_body_size __NGINX_CLIENT_MAX_BODY_SIZE__;
 
     root /var/www/html; # Change this to the directory containing Grav's index.php
     index index.php index.html;
