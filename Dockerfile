@@ -1,4 +1,4 @@
-FROM bitnami/minideb:trixie@sha256:99e849c976bdb5c647c58c2a27779c3a3427c51fb0f062b9dc92c708b01eaaed
+FROM bitnami/minideb:trixie@sha256:700e24cddb417832d332d37c24373601bf3faee9c617270f65522230b52e1eb7
 
 ARG GRAV_VERSION
 ARG GRAV_ADMIN
