@@ -72,6 +72,12 @@ RUN set -eux; \
     grav_root="$1"; \
   fi; \
   cp -a "${grav_root}/." /var/www/html/; \
+  curl --fail --location --retry 3 \
+    "https://github.com/composer/composer/releases/download/2.11.1/composer.phar" \
+    --output /tmp/composer.phar; \
+  echo "6f1b891e1d4927d62740276c540fb490e47689e19e102c49e8da849794882f8c  /tmp/composer.phar" \
+    | sha256sum --check --status; \
+  install -m 755 /tmp/composer.phar /var/www/html/bin/composer.phar; \
   mkdir -p /var/www/html/cache /var/www/html/logs /var/www/html/tmp \
     /var/www/html/backup /var/www/html/images /var/www/html/assets \
     /var/www/html/user; \
@@ -83,7 +89,7 @@ RUN set -eux; \
     /var/www/html/cache /var/www/html/logs /var/www/html/tmp \
     /var/www/html/backup /var/www/html/images /var/www/html/assets \
     /var/www/html/user; \
-  rm -rf /tmp/grav /tmp/grav.zip
+  rm -rf /tmp/grav /tmp/grav.zip /tmp/composer.phar
 
 RUN printf '%s\n' \
   '* * * * * cd /var/www/html && /usr/bin/php8.4 bin/grav scheduler >/dev/null 2>&1' \
