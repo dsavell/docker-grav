@@ -328,7 +328,7 @@ jobs:
             docker exec grav-cron-timezone-smoke date
             docker exec grav-cron-timezone-smoke cat /tmp/cron-tz-check || true
             docker logs grav-cron-timezone-smoke
-            echo "Cron did not parse TZ=America/Phoenix as MST" >&2
+            echo "Cron did not parse TZ=America/Phoenix as MST after $attempt attempts" >&2
             exit 1
           fi
 
