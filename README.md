@@ -243,7 +243,7 @@ account or group in the container.
   - Reduced image size from 256.8 MB to 53.27 MB (79.3% smaller).
   - Included timezone data for named `TZ` values.
   - Documented the built-in Grav scheduler separately from optional plugin updates.
-  - Added CI smoke tests for cron wildcard, list, range, step, and timezone handling.
+  - Added a CI smoke test for cron wildcard, list, range, and step handling.
   - Fixed the Grav scheduler crontab command for Admin status detection.
   - Made the BusyBox crontab readable to Grav's `www-data` process.
 - **01/11/2026:**

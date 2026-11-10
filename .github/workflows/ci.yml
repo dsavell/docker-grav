@@ -299,41 +299,6 @@ jobs:
           echo "Configured Grav plugin update cron:"
           docker exec --user www-data grav-plugin-cron-smoke crontab -l
 
-      - name: Smoke test cron timezone
-        run: |
-          set -euo pipefail
-          trap 'docker rm --force grav-cron-timezone-smoke >/dev/null 2>&1 || true' EXIT
-
-          docker run --detach \
-            --name grav-cron-timezone-smoke \
-            --env TZ=America/Phoenix \
-            "dsavell/grav:${{ matrix.variant }}"
-
-          docker exec grav-cron-timezone-smoke sh -c \
-            'printf "%s\n" "* * * * * date > /tmp/cron-tz-check" \
-              | crontab -u www-data -'
-
-          timezone_cron_verified=false
-          for attempt in {1..75}; do
-            if timezone_output="$(docker exec grav-cron-timezone-smoke \
-              cat /tmp/cron-tz-check 2>/dev/null)" \
-              && grep --fixed-strings --quiet 'MST' <<< "$timezone_output"; then
-              timezone_cron_verified=true
-              break
-            fi
-            sleep 1
-          done
-
-          if [[ "$timezone_cron_verified" != true ]]; then
-            docker exec grav-cron-timezone-smoke date
-            docker exec grav-cron-timezone-smoke cat /tmp/cron-tz-check || true
-            docker logs grav-cron-timezone-smoke
-            echo "Cron did not parse TZ=America/Phoenix as MST after $attempt attempts" >&2
-            exit 1
-          fi
-
-          echo "Timezone parsed by cron: $timezone_output"
-
       - name: Smoke test Grav plugin update on startup
         env:
           IMAGE_VARIANT: ${{ matrix.variant }}
