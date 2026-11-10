@@ -235,6 +235,10 @@ account or group in the container.
 
 ## Changelog
 
+- **10/11/2026:**
+  - Migrated the container base image from Debian to Alpine Linux.
+  - Fixed the Grav scheduler crontab command for Admin status detection.
+  - Made the BusyBox crontab readable to Grav's `www-data` process.
 - **01/11/2026:**
   - Added `ROBOTS_DISALLOW=true` to serve a bundled robots.txt that disallows all crawlers, with support for custom robots.txt bind mounts.
   - Added opt-in Grav plugin updates at startup or on a cron schedule.

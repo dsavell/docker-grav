@@ -284,11 +284,19 @@ jobs:
             --env 'GRAV_PLUGIN_UPDATE_CRON=15 4 * * 1' \
             "dsavell/grav:${{ matrix.variant }}"
 
-          cron_command='cd /var/www/html && /usr/bin/php8.4 bin/gpm update --plugins --all-yes'
+          scheduler_entry='* * * * * cd /var/www/html;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1'
+          if ! docker exec --user www-data grav-plugin-cron-smoke crontab -l \
+            | grep --fixed-strings --line-regexp --quiet "$scheduler_entry"; then
+            docker logs grav-plugin-cron-smoke
+            echo "Grav scheduler cron is not readable by www-data" >&2
+            exit 1
+          fi
+
+          cron_command='cd /var/www/html && /usr/bin/php84 bin/gpm update --plugins --all-yes'
           cron_entry="15 4 * * 1 $cron_command >> /var/www/html/logs/plugin-updates.log 2>&1"
           cron_configured=false
           for attempt in {1..30}; do
-            if docker exec grav-plugin-cron-smoke crontab -u www-data -l \
+            if docker exec --user www-data grav-plugin-cron-smoke crontab -l \
               | grep --fixed-strings --line-regexp --quiet "$cron_entry"; then
               cron_configured=true
               break
@@ -303,7 +311,7 @@ jobs:
           fi
 
           echo "Configured Grav plugin update cron:"
-          docker exec grav-plugin-cron-smoke crontab -u www-data -l
+          docker exec --user www-data grav-plugin-cron-smoke crontab -l
 
       - name: Smoke test Grav plugin update on startup
         env:

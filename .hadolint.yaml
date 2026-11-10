@@ -1,3 +1,6 @@
 ---
 ignored:
+  # DL3002 is expected: the entrypoint requires root to initialize accounts and services.
+  # DL3018 is expected: package versions follow the pinned Alpine release branch.
   - DL3002
+  - DL3018
