@@ -267,7 +267,7 @@ jobs:
 
           docker run --detach \
             --name grav-plugin-cron-smoke \
-            --env 'GRAV_PLUGIN_UPDATE_CRON=15 4 * * 1' \
+            --env 'GRAV_PLUGIN_UPDATE_CRON=*/15 1,3-5 1-31/2 1,6 1-5' \
             "dsavell/grav:${{ matrix.variant }}"
 
           scheduler_entry='* * * * * cd /var/www/html;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1'
@@ -279,7 +279,7 @@ jobs:
           fi
 
           cron_command='cd /var/www/html && /usr/bin/php84 bin/gpm update --plugins --all-yes'
-          cron_entry="15 4 * * 1 $cron_command >> /var/www/html/logs/plugin-updates.log 2>&1"
+          cron_entry="*/15 1,3-5 1-31/2 1,6 1-5 $cron_command >> /var/www/html/logs/plugin-updates.log 2>&1"
           cron_configured=false
           for attempt in {1..30}; do
             if docker exec --user www-data grav-plugin-cron-smoke crontab -l \
@@ -298,6 +298,41 @@ jobs:
 
           echo "Configured Grav plugin update cron:"
           docker exec --user www-data grav-plugin-cron-smoke crontab -l
+
+      - name: Smoke test cron timezone
+        run: |
+          set -euo pipefail
+          trap 'docker rm --force grav-cron-timezone-smoke >/dev/null 2>&1 || true' EXIT
+
+          docker run --detach \
+            --name grav-cron-timezone-smoke \
+            --env TZ=America/Phoenix \
+            "dsavell/grav:${{ matrix.variant }}"
+
+          docker exec grav-cron-timezone-smoke sh -c \
+            'printf "%s\n" "* * * * * date > /tmp/cron-tz-check" \
+              | crontab -u www-data -'
+
+          timezone_cron_verified=false
+          for attempt in {1..75}; do
+            if timezone_output="$(docker exec grav-cron-timezone-smoke \
+              cat /tmp/cron-tz-check 2>/dev/null)" \
+              && grep --fixed-strings --quiet 'MST' <<< "$timezone_output"; then
+              timezone_cron_verified=true
+              break
+            fi
+            sleep 1
+          done
+
+          if [[ "$timezone_cron_verified" != true ]]; then
+            docker exec grav-cron-timezone-smoke date
+            docker exec grav-cron-timezone-smoke cat /tmp/cron-tz-check || true
+            docker logs grav-cron-timezone-smoke
+            echo "Cron did not parse TZ=America/Phoenix as MST" >&2
+            exit 1
+          fi
+
+          echo "Timezone parsed by cron: $timezone_output"
 
       - name: Smoke test Grav plugin update on startup
         env:
