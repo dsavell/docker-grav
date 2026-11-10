@@ -169,11 +169,12 @@ restrict access to the site.
 
 ## Automatic Grav plugin updates
 
-Plugin updates are opt-in. Set `GRAV_PLUGIN_UPDATE_ON_STARTUP=true` to update
-installed plugins each time the container starts, or set
-`GRAV_PLUGIN_UPDATE_CRON` to a five-field cron schedule to update them
-periodically. You can enable either option or both. These settings update
-plugins only; they do not update Grav core or themes.
+The image runs Grav's built-in scheduler every minute as `www-data`. This is
+separate from plugin updates, which are opt-in. Set
+`GRAV_PLUGIN_UPDATE_ON_STARTUP=true` to update installed plugins each time the
+container starts, or set `GRAV_PLUGIN_UPDATE_CRON` to a five-field cron
+schedule to update them periodically. You can enable either option or both.
+These settings update plugins only; they do not update Grav core or themes.
 
 For example, to update plugins at startup and every day at 03:00:
 
@@ -211,6 +212,8 @@ port `80` from inside the container to be accessible from the host's IP on port
 
 `NGINX_CLIENT_MAX_BODY_SIZE` accepts a size in bytes, optionally suffixed with
 `k` or `m` (for example, `64m`). Set it to `0` to disable the limit.
+The image includes Alpine's timezone database for named `TZ` values such as
+`Europe/London`.
 
 ## User / Group Identifiers
 
@@ -237,6 +240,9 @@ account or group in the container.
 
 - **10/11/2026:**
   - Migrated the container base image from Debian to Alpine Linux.
+  - Reduced image size from 256.8 MB to 53.27 MB (79.3% smaller).
+  - Included timezone data for named `TZ` values.
+  - Documented the built-in Grav scheduler separately from optional plugin updates.
   - Fixed the Grav scheduler crontab command for Admin status detection.
   - Made the BusyBox crontab readable to Grav's `www-data` process.
 - **01/11/2026:**

@@ -13,6 +13,7 @@ RUN apk add --no-cache \
   git \
   nano \
   shadow \
+  tzdata \
   unzip \
   util-linux \
   vim \
