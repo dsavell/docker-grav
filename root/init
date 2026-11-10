@@ -183,7 +183,6 @@ if [[ "$DUID" != "$current_uid" ]]; then
   usermod --home /nonexistent www-data
 fi
 usermod --uid "$DUID" --gid www-data www-data
-chown www-data:crontab /var/spool/cron/crontabs/www-data
 
 for directory in cache logs tmp backup images assets user; do
   path="/var/www/html/$directory"
@@ -196,18 +195,22 @@ done
 if [[ "$GRAV_PLUGIN_UPDATE_ON_STARTUP" == true ]]; then
   echo "Updating Grav plugins on startup"
   runuser -u www-data -- /bin/bash -c \
-    'cd /var/www/html && /usr/bin/php8.4 bin/gpm update --plugins --all-yes'
+    'cd /var/www/html && /usr/bin/php84 bin/gpm update --plugins --all-yes'
 fi
 
 if [[ -n "$GRAV_PLUGIN_UPDATE_CRON" ]]; then
   {
     crontab -u www-data -l
     printf '%s %s\n' "$GRAV_PLUGIN_UPDATE_CRON" \
-      'cd /var/www/html && /usr/bin/php8.4 bin/gpm update --plugins --all-yes >> /var/www/html/logs/plugin-updates.log 2>&1'
+      'cd /var/www/html && /usr/bin/php84 bin/gpm update --plugins --all-yes >> /var/www/html/logs/plugin-updates.log 2>&1'
   } | crontab -u www-data -
 fi
 
+chmod 0755 /var/spool/cron /var/spool/cron/crontabs
+chown www-data:www-data /var/spool/cron/crontabs/www-data
+
+mkdir -p /run/php
 nginx -t
-service cron start
-service php8.4-fpm start
+crond -b
+php-fpm84 --daemonize
 exec nginx -g 'daemon off;'
