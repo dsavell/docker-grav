@@ -3,6 +3,9 @@ FROM alpine:3.24@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5
 ARG GRAV_VERSION
 ARG GRAV_ADMIN
 
+# Upgrade base libraries affected by reported CVEs using the latest Alpine 3.24 packages.
+RUN apk add --no-cache --upgrade musl zlib
+
 ## Install Packages
 RUN apk add --no-cache \
   bash \
