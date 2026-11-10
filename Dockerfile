@@ -1,16 +1,17 @@
-FROM bitnami/minideb:trixie@sha256:dbcdb2a22425606c8520b0498e9c49984fec77ca3b7c4828fa6fa8a9950dfd39
+FROM alpine:3.24@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
 
 ARG GRAV_VERSION
 ARG GRAV_ADMIN
 
 ## Install Packages
-RUN install_packages \
+RUN apk add --no-cache \
+  bash \
+  busybox-suid \
   ca-certificates \
-  cron \
   curl \
   git \
   nano \
-  passwd \
+  shadow \
   unzip \
   util-linux \
   vim \
@@ -19,34 +20,70 @@ RUN install_packages \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ## Install WebServer and PHP
-RUN install_packages \
+RUN apk add --no-cache \
   nginx \
-  php \
-  php-fpm \
-  php-cli \
-  php-apcu \
-  php-curl \
-  php-gd \
-  php-intl \
-  php-memcache \
-  php-memcached \
-  php-mbstring \
-  php-opcache \
-  php-redis \
-  php-xml \
-  php-yaml \
-  php-zip
+  php84 \
+  php84-ctype \
+  php84-curl \
+  php84-dom \
+  php84-exif \
+  php84-fileinfo \
+  php84-fpm \
+  php84-gd \
+  php84-iconv \
+  php84-intl \
+  php84-mbstring \
+  php84-opcache \
+  php84-openssl \
+  php84-pdo \
+  php84-pecl-apcu \
+  php84-pecl-memcache \
+  php84-pecl-memcached \
+  php84-pecl-redis \
+  php84-pecl-yaml \
+  php84-phar \
+  php84-session \
+  php84-simplexml \
+  php84-tokenizer \
+  php84-xml \
+  php84-xmlreader \
+  php84-xmlwriter \
+  php84-zip
 
-RUN rm -f /etc/nginx/sites-enabled/default \
+RUN ln -s /usr/bin/php84 /usr/bin/php \
+  && if awk -F: '$3 == 33 && $1 != "www-data" { found = 1 } END { exit !found }' /etc/passwd; then \
+      echo >&2 "UID 33 is already assigned to another user"; exit 1; \
+    fi \
+  && if ! grep -q '^www-data:' /etc/group; then \
+      addgroup -S -g 33 www-data; \
+    elif [ "$(awk -F: '$1 == "www-data" { print $3 }' /etc/group)" != 33 ]; then \
+      if awk -F: '$3 == 33 && $1 != "www-data" { found = 1 } END { exit !found }' /etc/group; then \
+        echo >&2 "GID 33 is already assigned to another group"; exit 1; \
+      fi; \
+      groupmod --gid 33 www-data; \
+    fi \
+  && if ! grep -q '^www-data:' /etc/passwd; then \
+      adduser -S -D -H -u 33 -G www-data -s /sbin/nologin www-data; \
+    fi \
+  && usermod --uid 33 --gid www-data --home /nonexistent --shell /sbin/nologin www-data \
+  && rm -f /etc/nginx/http.d/default.conf \
+  && mkdir -p /run/php \
   && sed -i 's|^;*error_log = .*|error_log = /dev/stderr|' \
-      /etc/php/8.4/fpm/php-fpm.conf \
-  && sed -i 's|^;*catch_workers_output = .*|catch_workers_output = yes|' \
-      /etc/php/8.4/fpm/pool.d/www.conf \
+      /etc/php84/php-fpm.conf \
+  && sed -i \
+      -e 's|^user = .*|user = www-data|' \
+      -e 's|^group = .*|group = www-data|' \
+      -e 's|^listen = .*|listen = /run/php/php84-fpm.sock|' \
+      -e 's|^;*listen.owner = .*|listen.owner = www-data|' \
+      -e 's|^;*listen.group = .*|listen.group = www-data|' \
+      -e 's|^;*listen.mode = .*|listen.mode = 0660|' \
+      -e 's|^;*catch_workers_output = .*|catch_workers_output = yes|' \
+      /etc/php84/php-fpm.d/www.conf \
   && printf '%s\n' \
       'php_admin_flag[log_errors] = on' \
       'php_admin_flag[session.upload_progress.enabled] = off' \
       'php_admin_value[error_log] = /dev/stderr' \
-      >> /etc/php/8.4/fpm/pool.d/www.conf
+      >> /etc/php84/php-fpm.d/www.conf
 
 ## Download GRAV
 RUN set -eux; \
@@ -86,7 +123,7 @@ RUN set -eux; \
   rm -rf /tmp/grav /tmp/grav.zip
 
 RUN printf '%s\n' \
-  '* * * * * cd /var/www/html && /usr/bin/php8.4 bin/grav scheduler >/dev/null 2>&1' \
+  '* * * * * cd /var/www/html;/usr/bin/php bin/grav scheduler 1>> /dev/null 2>&1' \
   | crontab -u www-data -
 
 COPY root/ /

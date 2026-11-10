@@ -15,7 +15,7 @@ server {
         include fastcgi_params;
         fastcgi_param HTTP_HOST $http_host;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+        fastcgi_pass unix:/run/php/php84-fpm.sock;
     }
 
     # Don't execute other PHP files directly.
