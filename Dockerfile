@@ -4,6 +4,7 @@ ARG GRAV_VERSION
 ARG GRAV_ADMIN
 
 # Upgrade base libraries affected by reported CVEs using the latest Alpine 3.24 packages.
+# hadolint ignore=DL3059
 RUN apk add --no-cache --upgrade musl zlib
 
 ## Install Packages
