@@ -18,7 +18,7 @@ RUN apk add --no-cache \
   util-linux \
   vim \
   wget \
-  && apk add --no-cache --upgrade musl zlib
+  && apk add --no-cache --upgrade musl zlib openssl
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
